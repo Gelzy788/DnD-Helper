@@ -1,55 +1,41 @@
-import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel
-import requests
+from PyQt6 import QtCore, QtWidgets, QtGui
 
 
-class LoginWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.initUI()
+class MyWindow(QtWidgets.QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setMinimumSize(250, 150)
+        self.setMaximumSize(250, 150)
 
-    def initUI(self):
-        self.setWindowTitle('Login')
+# +++ vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+        scrollArea = QtWidgets.QScrollArea()
+        content_widget = QtWidgets.QWidget()
+        scrollArea.setWidget(content_widget)
+        scrollArea.setWidgetResizable(True)
+        self.box1 = QtWidgets.QGridLayout(content_widget)
+# +++ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-        self.layout = QVBoxLayout()
+        self.button = QtWidgets.QPushButton('Button')
 
-        self.email_input = QLineEdit(self)
-        self.email_input.setPlaceholderText('Email')
-        self.layout.addWidget(self.email_input)
+        for n in range(1, 17):
+            btn = QtWidgets.QPushButton(
+                f'Button{n}',
+                clicked=lambda ch, n=n: print(f'Button{n}')
+            )
+            self.box1.addWidget(btn, n-1, 0)
 
-        self.password_input = QLineEdit(self)
-        self.password_input.setPlaceholderText('Password')
-        self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
-        self.layout.addWidget(self.password_input)
+        self.box = QtWidgets.QHBoxLayout()
+#        self.box.addLayout(self.box1)                           # ---
+        self.box.addWidget(scrollArea)                           # +++
 
-        self.login_button = QPushButton('Login', self)
-        self.login_button.clicked.connect(self.login)
-        self.layout.addWidget(self.login_button)
-
-        self.message_label = QLabel('', self)
-        self.layout.addWidget(self.message_label)
-
-        self.setLayout(self.layout)
-
-    def login(self):
-        email = self.email_input.text()
-        password = self.password_input.text()
-
-        response = requests.post(
-            'http://192.168.1.4:5000/login', json={'email': email, 'password': password})
-
-        if response.status_code == 200:
-            self.message_label.setText('Login successful')
-        else:
-            self.message_label.setText('Login failed')
-
-    def register(self):
-        email = self.email_input.text()
-        password = self.password_input.text()
+        self.box.addWidget(self.button)
+        self.setLayout(self.box)
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = LoginWindow()
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    window = MyWindow()
+    window.setWindowTitle(' ')
     window.show()
     sys.exit(app.exec())

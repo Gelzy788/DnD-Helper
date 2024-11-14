@@ -40,7 +40,7 @@
      <string>Кинуть дайс</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="to_main_btn">
+   <widget class="QPushButton" name="back_btn">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>На главную</string>
+     <string>Назад</string>
     </property>
    </widget>
    <widget class="QWidget" name="gridLayoutWidget">
