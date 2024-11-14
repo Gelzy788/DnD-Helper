@@ -110,7 +110,11 @@
      <rect>
       <x>180</x>
       <y>260</y>
+<<<<<<< HEAD
       <width>161</width>
+=======
+      <width>141</width>
+>>>>>>> 753d41d2c0becd3ba7834cb7f4a89d9cd188dd3d
       <height>71</height>
      </rect>
     </property>
@@ -118,6 +122,7 @@
      <string>Выйти из аккаунта</string>
     </property>
    </widget>
+<<<<<<< HEAD
    <widget class="QPushButton" name="add_friend_btn">
     <property name="geometry">
      <rect>
@@ -144,6 +149,8 @@
      <string>Список друзей</string>
     </property>
    </widget>
+=======
+>>>>>>> 753d41d2c0becd3ba7834cb7f4a89d9cd188dd3d
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

@@ -1,7 +1,7 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QInputDialog, QPushButton, QVBoxLayout, QWidget
 from PyQt6.uic import loadUi
-from src.config import *
+from config import *
 import requests
 
 
