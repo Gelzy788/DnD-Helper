@@ -9,7 +9,7 @@ from random import randint
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        loadUi('ui_files\\main_screen.ui', self)
+        loadUi('data\\ui_files\\main_screen.ui', self)
 
         # Чтение токенов
         try:
@@ -25,23 +25,23 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.stacked_widget)
 
         self.main_screen = loadUi(
-            'C:\\Users\\Redmi\\Documents\\DnD-Helper\\ui_files\\main_screen.ui')
+            'data\\ui_files\\main_screen.ui')
         self.default_screen = loadUi(
-            'C:\\Users\\Redmi\\Documents\\DnD-Helper\\ui_files\\default_screen.ui')
+            'data\\ui_files\\default_screen.ui')
         self.login_screen = loadUi(
-            'C:\\Users\\Redmi\\Documents\\DnD-Helper\\ui_files\\login_screen.ui')
+            'data\\ui_files\\login_screen.ui')
         self.registration_screen = loadUi(
-            'C:\\Users\\Redmi\\Documents\\DnD-Helper\\ui_files\\registration_screen.ui')
+            'data\\ui_files\\registration_screen.ui')
         self.profile_screen = loadUi(
-            'C:\\Users\\Redmi\\Documents\\DnD-Helper\\ui_files\\profile_screen.ui')
+            'data\\ui_files\\profile_screen.ui')
         self.questionnaire_screen = loadUi(
-            'C:\\Users\\Redmi\\Documents\\DnD-Helper\\ui_files\\questionnaire_screen.ui')
+            'data\\ui_files\\questionnaire_screen.ui')
         self.create_questionnaire_screen = loadUi(
-            'C:\\Users\\Redmi\\Documents\\DnD-Helper\\ui_files\\create_questionnaire_screen.ui')
+            'data\\ui_files\\create_questionnaire_screen.ui')
         self.questionnaire_info_screen = loadUi(
-            'C:\\Users\\Redmi\\Documents\\DnD-Helper\\ui_files\\questionnaire_info_screen.ui')
+            'data\\ui_files\\questionnaire_info_screen.ui')
         self.questionnaire_edit_screen = loadUi(
-            'C:\\Users\\Redmi\\Documents\\DnD-Helper\\ui_files\\questionnaire_edit_screen.ui')
+            'data\\ui_files\\questionnaire_edit_screen.ui')
 
         # Добавляем интерфейсы в QStackedWidget
         self.stacked_widget.addWidget(self.main_screen)
