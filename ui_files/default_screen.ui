@@ -56,116 +56,96 @@
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>70</y>
+      <x>200</x>
+      <y>60</y>
       <width>311</width>
       <height>331</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="species_input"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="class_input"/>
+     </item>
+     <item row="6" column="1">
+      <widget class="QLineEdit" name="level_input"/>
+     </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Предыстория:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Опыт</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Мировоззрение</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Класс:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Раса:</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0">
+     <item row="1" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Класс:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string>Уровень</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="class_label">
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>TextLabel</string>
+        <string>Опыт</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="species_label">
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>TextLabel</string>
+        <string>Мировоззрение</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="background_label">
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>TextLabel</string>
+        <string>Предыстория:</string>
        </property>
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLabel" name="world_view_label">
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="background_input"/>
      </item>
      <item row="4" column="1">
-      <widget class="QLabel" name="exp_label">
+      <widget class="QLineEdit" name="worldview_input"/>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="exp_input"/>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_7">
        <property name="text">
-        <string>TextLabel</string>
+        <string>Имя персонажа</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QLabel" name="level_label">
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="name_input"/>
      </item>
     </layout>
    </widget>
-   <widget class="QLabel" name="name_label">
+   <widget class="QPushButton" name="save_btn">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>10</y>
-      <width>311</width>
-      <height>61</height>
+      <x>310</x>
+      <y>410</y>
+      <width>101</width>
+      <height>41</height>
      </rect>
     </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="whatsThis">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;TextLabel&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>Сохранить</string>
     </property>
    </widget>
   </widget>

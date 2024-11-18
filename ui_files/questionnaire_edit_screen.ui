@@ -6,21 +6,47 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>731</width>
+    <height>491</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="account_btn">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>20</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Аккаунт</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="throw_dice_btn">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>410</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Кинуть дайс</string>
+    </property>
+   </widget>
    <widget class="QPushButton" name="back_btn">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>10</y>
-      <width>121</width>
-      <height>51</height>
+      <x>20</x>
+      <y>410</y>
+      <width>101</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -31,46 +57,43 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>100</y>
-      <width>351</width>
-      <height>281</height>
+      <y>60</y>
+      <width>311</width>
+      <height>331</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="species_input"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="class_input"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Раса:</string>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Класс</string>
+        <string>Класс:</string>
        </property>
       </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="worldview_input"/>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="background_input"/>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Опыт</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Предыстория</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="species_input"/>
      </item>
      <item row="6" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string>Уровень</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Опыт</string>
        </property>
       </widget>
      </item>
@@ -81,12 +104,28 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="0">
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Предыстория:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="background_input"/>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="worldview_input"/>
+     </item>
+     <item row="0" column="0">
       <widget class="QLabel" name="label_7">
        <property name="text">
         <string>Имя персонажа</string>
        </property>
       </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="name_input"/>
      </item>
      <item row="5" column="1">
       <widget class="QSpinBox" name="exp_input">
@@ -94,9 +133,6 @@
         <number>1000000</number>
        </property>
       </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QLineEdit" name="name_input"/>
      </item>
      <item row="6" column="1">
       <widget class="QSpinBox" name="level_input">
@@ -108,54 +144,21 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Раса</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="class_input"/>
-     </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="create_btn">
+   <widget class="QPushButton" name="save_btn">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>310</x>
       <y>410</y>
-      <width>351</width>
-      <height>23</height>
+      <width>101</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Создать</string>
+     <string>Сохранить</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_8">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>390</y>
-      <width>351</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>22</height>
-    </rect>
-   </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
