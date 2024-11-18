@@ -10,6 +10,8 @@ greenlet==3.1.1
 idna==3.10
 itsdangerous==2.2.0
 Jinja2==3.1.4
+PyJWT==2.9.0
+pytz==2024.2
 MarkupSafe==3.0.2
 mysqlclient==2.2.5
 PyQt6==6.7.1
