@@ -417,9 +417,6 @@ class MainWindow(QMainWindow):
             # print(response.json().get('message'))
             print('ОШИБКА')
 
-    def delete_questionnaire(self):
-        pass
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
