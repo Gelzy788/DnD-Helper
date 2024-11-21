@@ -7,7 +7,6 @@ from login_manager import LoginManager
 from register_manager import RegisterManager
 from profile_manager import ProfileManager
 from PyQt6.uic import loadUi
-import requests
 from config import *
 
 
@@ -71,12 +70,18 @@ class MainWindow(QMainWindow):
         self.main_window.questionnaires_btn.clicked.connect(
             self.switch_to_questionnaire_screen)
         self.main_window.throw_dice_btn.clicked.connect(self.throw_dice)
+        self.main_window.friends_btn.clicked.connect(
+            self.switch_to_friends_list_screen)
 
     def switch_to_registration_screen(self):
         self.stacked_widget.setCurrentWidget(self.register_manager)
 
     def switch_to_login_screen(self):
         self.stacked_widget.setCurrentWidget(self.login_manager)
+
+    def switch_to_friends_list_screen(self):
+        self.stacked_widget.setCurrentWidget(self.friend_manager)
+        # self.friend_manager.load_friends_data()
 
     def switch_to_profile_screen(self):
         # Загружаем данные профиля при переключении

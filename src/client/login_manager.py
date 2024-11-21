@@ -30,9 +30,9 @@ class LoginManager(QMainWindow):
             self.refresh_token = response.json().get('refresh_token')
 
             with open('tokens.txt', 'w') as f:
-                f.write(self.access_token)
+                f.write(access_token)
                 f.write('\n')
-                f.write(self.refresh_token)
+                f.write(refresh_token)
             print('login successful')
         else:
             self.login_res.setText('login failed')
