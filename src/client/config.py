@@ -13,8 +13,15 @@
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 IP_ADDRESS = '185.247.185.193'  # IP адрес сервера
 PORT = 5000  # Порт flask сервера
-access_token = ''
-refresh_token = ''
+
+try:
+    with open('tokens.txt', 'r') as f:
+        data = f.readlines()
+        access_token = data[0].strip()
+        refresh_token = data[1].strip()
+except Exception as e1:
+    access_token = ''
+    refresh_token = ''
 
 # db = SQLAlchemy(app)
 # login_manager = LoginManager()

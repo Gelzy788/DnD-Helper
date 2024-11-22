@@ -47,6 +47,7 @@ class ProfileManager(QMainWindow):
 
     @token_required
     def load_profile_data(self):
+        print('>>>>|', access_token)
         response = requests.get(
             f'http://{IP_ADDRESS}:{PORT}/profile', headers={'Authorization': f'Bearer {self.access_token}'})
 

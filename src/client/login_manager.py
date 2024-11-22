@@ -29,7 +29,7 @@ class LoginManager(QMainWindow):
             self.access_token = response.json().get('access_token')
             self.refresh_token = response.json().get('refresh_token')
 
-            with open('tokens.txt', 'w') as f:
+            with open("C:\\Users\\Redmi\\Documents\\DnD-Helper\\tokens.txt", 'w') as f:
                 f.write(access_token)
                 f.write('\n')
                 f.write(refresh_token)
