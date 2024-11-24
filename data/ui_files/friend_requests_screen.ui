@@ -53,26 +53,13 @@
      <string>Назад</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="add_friend_btn">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>410</y>
-      <width>111</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Добавить в друзья</string>
-    </property>
-   </widget>
    <widget class="QScrollArea" name="scroll_area">
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>0</y>
-      <width>411</width>
-      <height>411</height>
+      <y>10</y>
+      <width>421</width>
+      <height>431</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -83,24 +70,11 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>409</width>
-       <height>409</height>
+       <width>419</width>
+       <height>429</height>
       </rect>
      </property>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="friend_requests_btn">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>360</y>
-      <width>101</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Приглашения</string>
-    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

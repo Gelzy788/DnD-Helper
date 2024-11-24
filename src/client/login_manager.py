@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QLabel, QPushButton, QInputDialog, QMessageBox
 from PyQt6.uic import loadUi
 import requests
-from config import *
+from my_config import *
 
 
 class LoginManager(QMainWindow):
@@ -26,16 +26,24 @@ class LoginManager(QMainWindow):
 
         if response.status_code == 200:
             self.login_res.setText('login successful')
-            self.access_token = response.json().get('access_token')
-            self.refresh_token = response.json().get('refresh_token')
+            access_token = response.json().get('access_token')
+            refresh_token = response.json().get('refresh_token')
 
-            with open("C:\\Users\\Redmi\\Documents\\DnD-Helper\\tokens.txt", 'w') as f:
+            with open("tokens.txt", 'w') as f:
+                print(access_token, '>>', refresh_token)
                 f.write(access_token)
                 f.write('\n')
                 f.write(refresh_token)
+            # with open("../../tokens.txt", 'r') as f:
+            #     print(access_token, '>>', refresh_token)
+            #     print(f.readlines())
             print('login successful')
         else:
             self.login_res.setText('login failed')
+        
+        with open("tokens.txt", 'r') as f:
+                print(access_token, '>>', refresh_token)
+                print(f.readlines())
 
     def go_back(self):
         self.main_window.stacked_widget.setCurrentWidget(

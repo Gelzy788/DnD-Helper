@@ -7,7 +7,7 @@ from login_manager import LoginManager
 from register_manager import RegisterManager
 from profile_manager import ProfileManager
 from PyQt6.uic import loadUi
-from config import *
+from my_config import *
 
 
 class MainWindow(QMainWindow):
@@ -15,14 +15,20 @@ class MainWindow(QMainWindow):
         super().__init__()
         loadUi('data\\ui_files\\main_screen.ui', self)
 
-        try:
-            with open('tokens.txt', 'r') as f:
-                data = f.readlines()
-                access_token = data[0].strip()
-                refresh_token = data[1].strip()
-        except Exception as e1:
-            access_token = ''
-            refresh_token = ''
+        # with open("tokens.txt", 'r') as f:
+        #         print('MAIN WONDOW:')
+        #         print(access_token, '>>', refresh_token)
+        #         print(f.readlines())
+        #         print(';;;')
+
+        # try:
+        #     with open('tokens.txt', 'r') as f:
+        #         data = f.readlines()
+        #         access_token = data[0].strip()
+        #         refresh_token = data[1].strip()
+        # except Exception as e1:
+        #     access_token = ''
+        #     refresh_token = ''
 
         self.stacked_widget = QStackedWidget()
         self.setCentralWidget(self.stacked_widget)
@@ -44,6 +50,7 @@ class MainWindow(QMainWindow):
         self.questionnaire_edit_screen = loadUi(
             'data\\ui_files\\questionnaire_edit_screen.ui')
         self.main_window = loadUi('data\\ui_files\\main_screen.ui')
+        self.friend_requests_screen = loadUi('data/ui_files/friend_requests_screen.ui')
 
         # Добавление экранов в QStackedWidget
         self.stacked_widget.addWidget(self.profile_manager)
@@ -57,6 +64,7 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.create_questionnaire_screen)
         self.stacked_widget.addWidget(self.questionnaire_info_screen)
         self.stacked_widget.addWidget(self.questionnaire_edit_screen)
+        self.stacked_widget.addWidget(self.friend_requests_screen)
 
         # Установка начального экрана
         self.stacked_widget.setCurrentWidget(self.main_window)
@@ -81,7 +89,7 @@ class MainWindow(QMainWindow):
 
     def switch_to_friends_list_screen(self):
         self.stacked_widget.setCurrentWidget(self.friend_manager)
-        # self.friend_manager.load_friends_data()
+        self.friend_manager.load_friends_data()
 
     def switch_to_profile_screen(self):
         # Загружаем данные профиля при переключении

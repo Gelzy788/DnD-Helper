@@ -1,7 +1,7 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow, QStackedWidget, QInputDialog, QPushButton, QVBoxLayout, QWidget, QMessageBox
 from PyQt6.uic import loadUi
-from config import *
+from my_config import *
 import requests
 from random import randint
 

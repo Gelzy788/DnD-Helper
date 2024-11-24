@@ -1,11 +1,13 @@
 import requests
-from config import *
+from my_config import access_token, refresh_token, IP_ADDRESS, PORT
 
 # @staticmethod
 
 
 def token_required(func):
     def wrapper(self, *args, **kwargs):
+        global access_token, refresh_token
+        print(access_token)
         try:
             with open('tokens.txt', 'r') as f:
                 data = f.readlines()
@@ -27,33 +29,33 @@ def token_required(func):
         return func(self, *args, **kwargs)
     return wrapper
 
-# def token_required(func):
-#     def wrapper(self, *args, **kwargs):
-#         # Проверяем, есть ли уже сохраненные токены
-#         if not hasattr(self, 'access_token') or not hasattr(self, 'refresh_token'):
-#             try:
-#                 with open('tokens.txt', 'r') as f:
-#                     data = f.readlines()
-#                     self.access_token = data[0].strip()
-#                     self.refresh_token = data[1].strip()
-#             except Exception as e1:
-#                 print('ОШИБКА')
-#                 self.main_window.stacked_widget.setCurrentWidget(
-#                     self.main_window.main_window)
-#                 return
+def token_required(func):
+    def wrapper(self, *args, **kwargs):
+        # Проверяем, есть ли уже сохраненные токены
+        if not hasattr(self, 'access_token') or not hasattr(self, 'refresh_token'):
+            try:
+                with open('tokens.txt', 'r') as f:
+                    data = f.readlines()
+                    self.access_token = data[0].strip()
+                    self.refresh_token = data[1].strip()
+            except Exception as e1:
+                print('ОШИБКА')
+                self.main_window.stacked_widget.setCurrentWidget(
+                    self.main_window.main_window)
+                return
 
-    #     if not is_access_token_expiring_soon():
-    #         print("Токен истекает, обновляем...")
-    #         refresh_access_token()
+        if not is_access_token_expiring_soon():
+            print("Токен истекает, обновляем...")
+            refresh_access_token()
 
-    #     if self.access_token == '':
-    #         print("Токен недействителен, перенаправляем на экран входа...")
-    #         self.main_window.stacked_widget.setCurrentWidget(
-    #             self.main_window.login_manager)
-    #         return
+        if self.access_token == '':
+            print("Токен недействителен, перенаправляем на экран входа...")
+            self.main_window.stacked_widget.setCurrentWidget(
+                self.main_window.login_manager)
+            return
 
-    #     return func(self, *args, **kwargs)
-    # return wrapper
+        return func(self, *args, **kwargs)
+    return wrapper
 
 
 def refresh_access_token():

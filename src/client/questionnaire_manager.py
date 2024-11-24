@@ -1,8 +1,8 @@
 from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QPushButton, QStackedWidget
 import requests
-from config import *
+from my_config import *
 from PyQt6.uic import loadUi
-from my_token import token_required
+# from my_token import token_required
 
 
 class QuestionnaireManager(QMainWindow):
@@ -13,66 +13,66 @@ class QuestionnaireManager(QMainWindow):
         self.refresh_token = refresh_token
         self.init_ui()
 
-    # @staticmethod
-    # def token_required(func):
-    #     def wrapper(self, *args, **kwargs):
-    #         try:
-    #             with open('tokens.txt', 'r') as f:
-    #                 data = f.readlines()
-    #                 self.access_token = data[0].strip()
-    #                 self.refresh_token = data[1].strip()
-    #         except Exception as e1:
-    #             print('ОШИБКА')
-    #             self.main_window.stacked_widget.setCurrentWidget(
-    #                 self.main_window.main_window)
-    #         if not self.is_access_token_expiring_soon():
-    #             print("Токен истекает, обновляем...")
-    #             self.refresh_access_token()
-    #         if self.access_token == '':
-    #             print("Токен недействителен, перенаправляем на экран входа...")
-    #             self.main_window.stacked_widget.setCurrentWidget(
-    #                 self.main_window.login_manager)
-    #             return
-    #         return func(self, **kwargs)
-    #     return wrapper
+    @staticmethod
+    def token_required(func):
+        def wrapper(self, *args, **kwargs):
+            try:
+                with open('tokens.txt', 'r') as f:
+                    data = f.readlines()
+                    self.access_token = data[0].strip()
+                    self.refresh_token = data[1].strip()
+            except Exception as e1:
+                print('ОШИБКА')
+                self.main_window.stacked_widget.setCurrentWidget(
+                    self.main_window.main_window)
+            if not self.is_access_token_expiring_soon():
+                print("Токен истекает, обновляем...")
+                self.refresh_access_token()
+            if self.access_token == '':
+                print("Токен недействителен, перенаправляем на экран входа...")
+                self.main_window.stacked_widget.setCurrentWidget(
+                    self.main_window.login_manager)
+                return
+            return func(self, **kwargs)
+        return wrapper
 
-    # def refresh_access_token(self):
-    #     response = requests.post(
-    #         f'http://{IP_ADDRESS}:{PORT}/refresh-token', json={'refresh_token': self.refresh_token})
+    def refresh_access_token(self):
+        response = requests.post(
+            f'http://{IP_ADDRESS}:{PORT}/refresh-token', json={'refresh_token': self.refresh_token})
 
-    #     if response.status_code == 200:
-    #         try:
-    #             json_response = response.json()
-    #             self.access_token = json_response.get('access_token')
-    #             access_token = json_response.get('access_token')
-    #             with open('tokens.txt', 'w') as f:
-    #                 f.write(self.access_token)
-    #                 f.write('\n')
-    #                 f.write(self.refresh_token)
-    #         except ValueError:
-    #             print("Ошибка декодирования JSON: пустой или некорректный ответ")
-    #     else:
-    #         try:
-    #             print(response.json().get('message'))
-    #         except ValueError:
-    #             print("Ошибка декодирования JSON: пустой или некорректный ответ")
-    #         print("Некорректный ответ от сервера или ошибка соединения")
+        if response.status_code == 200:
+            try:
+                json_response = response.json()
+                self.access_token = json_response.get('access_token')
+                access_token = json_response.get('access_token')
+                with open('tokens.txt', 'w') as f:
+                    f.write(self.access_token)
+                    f.write('\n')
+                    f.write(self.refresh_token)
+            except ValueError:
+                print("Ошибка декодирования JSON: пустой или некорректный ответ")
+        else:
+            try:
+                print(response.json().get('message'))
+            except ValueError:
+                print("Ошибка декодирования JSON: пустой или некорректный ответ")
+            print("Некорректный ответ от сервера или ошибка соединения")
 
-    # def is_access_token_expiring_soon(self):
-    #     response = requests.post(
-    #         f'http://{IP_ADDRESS}:{PORT}/access-token-expiration',
-    #         json={'access_token': self.access_token})
+    def is_access_token_expiring_soon(self):
+        response = requests.post(
+            f'http://{IP_ADDRESS}:{PORT}/access-token-expiration',
+            json={'access_token': self.access_token})
 
-    #     if response.status_code == 200 and response.content:
-    #         try:
-    #             return response.json().get('is_valid')
-    #         except ValueError:
-    #             print("Ошибка декодирования JSON")
-    #             return None
-    #     else:
-    #         print(response.json().get('message'))
-    #         print("Некорректный ответ от сервера или ошибка соединения")
-    #         return None
+        if response.status_code == 200 and response.content:
+            try:
+                return response.json().get('is_valid')
+            except ValueError:
+                print("Ошибка декодирования JSON")
+                return None
+        else:
+            print(response.json().get('message'))
+            print("Некорректный ответ от сервера или ошибка соединения")
+            return None
 
     def init_ui(self):
         loadUi('data\\ui_files\\questionnaire_screen.ui', self)
@@ -139,8 +139,8 @@ class QuestionnaireManager(QMainWindow):
         # Подключаем новый обработчик
         screen.del_btn.clicked.connect(
             lambda: self.del_questionnaire(questionnaire['id']))
-        screen.del_btn.clicked.connect(
-            lambda: self.del_questionnaire(questionnaire['id']))
+        screen.back_btn.clicked.connect(
+            self.to_questionnaire_list)
         screen.edit_btn.clicked.connect(lambda:
                                         self.switch_to_edit_questionnaire_screen(questionnaire))
 
@@ -199,7 +199,6 @@ class QuestionnaireManager(QMainWindow):
         if response.status_code == 200:
             print('Анкета была отредактирована')
         else:
-            # print("Хуета вышла")
             print(response.json().get('message'))
 
     @token_required
