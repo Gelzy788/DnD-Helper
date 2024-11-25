@@ -50,7 +50,9 @@ class MainWindow(QMainWindow):
         self.questionnaire_edit_screen = loadUi(
             'data\\ui_files\\questionnaire_edit_screen.ui')
         self.main_window = loadUi('data\\ui_files\\main_screen.ui')
-        self.friend_requests_screen = loadUi('data/ui_files/friend_requests_screen.ui')
+        self.friend_requests_screen = loadUi(
+            'data/ui_files/friend_requests_screen.ui')
+        self.groups_screen = loadUi('data/ui_files/group_screen.ui')
 
         # Добавление экранов в QStackedWidget
         self.stacked_widget.addWidget(self.profile_manager)
@@ -65,6 +67,7 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.questionnaire_info_screen)
         self.stacked_widget.addWidget(self.questionnaire_edit_screen)
         self.stacked_widget.addWidget(self.friend_requests_screen)
+        self.stacked_widget.addWidget(self.groups_screen)
 
         # Установка начального экрана
         self.stacked_widget.setCurrentWidget(self.main_window)
@@ -80,12 +83,18 @@ class MainWindow(QMainWindow):
         self.main_window.throw_dice_btn.clicked.connect(self.throw_dice)
         self.main_window.friends_btn.clicked.connect(
             self.switch_to_friends_list_screen)
+        self.main_window.groups_btn.clicked.connect(
+            self.switch_to_group_list_screen)
 
     def switch_to_registration_screen(self):
         self.stacked_widget.setCurrentWidget(self.register_manager)
 
     def switch_to_login_screen(self):
         self.stacked_widget.setCurrentWidget(self.login_manager)
+
+    def switch_to_group_list_screen(self):
+        self.stacked_widget.setCurrentWidget(self.group_manager)
+        self.group_manager.load_groups()
 
     def switch_to_friends_list_screen(self):
         self.stacked_widget.setCurrentWidget(self.friend_manager)

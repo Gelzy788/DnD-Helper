@@ -122,8 +122,9 @@ class FriendManager(QMainWindow):
                 if i['status'] == 1:
                     button = QPushButton(self)
                     button.setText(i['user_name'])
-                    self.buttons.append(button)
                     button.setFixedSize(400, 50)
+                    self.buttons.append(button)
+                    button.setProperty('request_id', i['id'])
                     button.clicked.connect(
                         self.delete_friend)
                     button_layout.addWidget(button)
@@ -166,6 +167,7 @@ class FriendManager(QMainWindow):
                     button = QPushButton(self)
                     button.setText(i['user_name'])
                     self.buttons.append(button)
+                    button.setProperty('request_id', i['id'])
                     button.setFixedSize(400, 50)
                     button.clicked.connect(
                         self.accept_friend_request)
@@ -190,24 +192,25 @@ class FriendManager(QMainWindow):
             QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
         returnValue = msg.exec()
         if returnValue == QMessageBox.StandardButton.Ok:
-            friends_couple = self.friends[self.buttons.index(self.sender())]
+            # friends_couple = self.friends[self.buttons.index(self.sender())]
+            # print(type(self.sender().property('request_id')))
             response = requests.post(
-                f'http://{IP_ADDRESS}:{PORT}/update_friendship_status', json={'user_id': friends_couple['user_id'], 'friend_id': friends_couple['friend_id']})
+                f'http://{IP_ADDRESS}:{PORT}/update_friendship_status', json={'request_id': self.sender().property('request_id')})
             if response.status_code == 200:
                 print('Друг добавлен')
-                self.load_friend_requests
+                self.load_friend_requests()
             else:
                 print(response.json().get('message'))
         else:
-            # Может произойти баг и все друзья удалятся(или не все. Я не знаю)
+            # Удаляем только отклоненный запрос
             friends_couple = self.friends[self.buttons.index(self.sender())]
             response = requests.post(
-                f'http://{IP_ADDRESS}:{PORT}/delete_friend_request', json={'user_id': friends_couple['user_id'], 'friend_id': friends_couple['friend_id']})
+                f'http://{IP_ADDRESS}:{PORT}/delete_friend_request', json={'request_id': self.sender().property('request_id')})
             if response.status_code == 200:
                 print('Приглашение отклонено')
-                self.load_friend_requests
+                self.load_friend_requests()
             else:
-                print(response.json.get('message'))
+                print(response.json().get('message'))
 
     def delete_friend(self):
         msg = QMessageBox()
@@ -222,10 +225,10 @@ class FriendManager(QMainWindow):
         if returnValue == QMessageBox.StandardButton.Ok:
             friends_couple = self.friends[self.buttons.index(self.sender())]
             response = requests.post(
-                f'http://{IP_ADDRESS}:{PORT}/update_friendship_status', json={'user_id': friends_couple['user_id'], 'friend_id': friends_couple['friend_id']})
+                f'http://{IP_ADDRESS}:{PORT}/update_friendship_status', json={'request_id': self.sender().property('request_id')})
             if response.status_code == 200:
                 print('Друг удален')
-                self.load_friends_data
+                self.load_friends_data()
             else:
                 print(response.json().get('message'))
 

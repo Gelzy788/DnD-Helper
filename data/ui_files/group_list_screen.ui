@@ -53,39 +53,13 @@
      <string>Назад</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>30</y>
-      <width>41</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;ДМ:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="dm_name">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>30</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;TextLabel&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
    <widget class="QScrollArea" name="scroll_area">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>70</y>
-      <width>241</width>
-      <height>331</height>
+      <x>160</x>
+      <y>0</y>
+      <width>411</width>
+      <height>401</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -96,33 +70,36 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>239</width>
-       <height>329</height>
+       <width>409</width>
+       <height>399</height>
       </rect>
      </property>
     </widget>
    </widget>
-   <widget class="QCalendarWidget" name="calendarWidget">
+   <widget class="QPushButton" name="create_group_btn">
     <property name="geometry">
      <rect>
-      <x>450</x>
-      <y>100</y>
-      <width>261</width>
-      <height>191</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>450</x>
-      <y>310</y>
-      <width>261</width>
+      <x>610</x>
+      <y>360</y>
+      <width>101</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Сюжет игры</string>
+     <string>Создать группу</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="join_group_btn">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>410</y>
+      <width>151</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Присоединиться к группе</string>
     </property>
    </widget>
   </widget>
