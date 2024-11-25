@@ -23,7 +23,7 @@ def token_required(f):
         if 'Authorization' in request.headers:
             # Извлекаем токен после "Bearer"
             token = request.headers['Authorization'].split()[1]
-            print('>>>', token)
+            # print('>>>', token)
 
         if not token:
             return jsonify({'message': 'Token is missing!'}), 401
@@ -112,7 +112,7 @@ def add_friend():
     if res:
         return jsonify({"message": "Friend added"}), 200
     else:
-        return jsonify({"message": "Friend already added"}), 200
+        return jsonify({"message": "Friend already added"}), 501
 
 
 @app.route('/create_new_questionnaire', methods=['POST'])
@@ -142,6 +142,7 @@ def profile(current_user):
     user_profile = {'id': current_user['id'],
                     "email": current_user['email'],
                     "username": current_user['username']}
+    print(user_profile)
     return jsonify(user_profile)
 
 # Обновление access токена
@@ -151,6 +152,7 @@ def profile(current_user):
 def refresh_token():
     data = request.json
     refresh_token = data.get('refresh_token')
+    print(refresh_token)
 
     if not refresh_token:
         return jsonify({'message': 'Refresh token is missing!'}), 401
@@ -182,7 +184,7 @@ def access_token_expiration():
     data = request.json
     if not data:
         return jsonify({'message': 'Invalid JSON format!'}), 400
-
+    print(data)
     access_token = data.get('access_token')
     if not access_token:
         return jsonify({'message': 'Access token is missing!'}), 401
@@ -269,6 +271,91 @@ def edit_questionnaire():
         return jsonify({'message': 'questionnaire was edited'}), 200
     else:
         return jsonify({'message': f'Error: {res}'}), 400
+
+
+@app.route('/get_friends', methods=['POST'])
+def get_friends():
+    access_token = request.json.get('access_token')
+    user_id = jwt.decode(access_token, ACCESS_TOKEN_SECRET_KEY,
+                         algorithms=['HS256'])['user']['id']
+    friend_list = Friends.query.filter_by(user_id=user_id).all()
+    friend_list.extend(Friends.query.filter_by(friend_id=user_id).all())
+    return jsonify({'friends': [q.to_dict() for q in friend_list]}), 200
+
+
+@app.route('/update_friendship_status', methods=['POST'])
+def update_friendship_status():
+    request_id = request.json.get('request_id')
+    res = update_friendship_status_db(request_id)
+
+    if res is True:
+        return jsonify({'message': 'status was update'}), 200
+    else:
+        return jsonify({'message': f'Error: {res}'})
+
+
+@app.route('/delete_friend_request', methods=['POST'])
+def delete_friend_request():
+    request_id = request.json.get('request_id')
+    print(request_id)
+    res = delete_friend_request_db(request_id)
+
+    if res is True:
+        return jsonify({'message': 'status was update'}), 200
+    else:
+        return jsonify({'message': f'Error: {res}'})
+
+
+@app.route('/get_groups', methods=['POST'])
+def get_groups():
+    access_token = request.json.get('access_token')
+    user_id = jwt.decode(access_token, ACCESS_TOKEN_SECRET_KEY,
+                         algorithms=['HS256'])['user']['id']
+    owner_groups = Groups.query.filter_by(owner_id=user_id).all()
+    participant_groups = GroupsMembers.query.filter_by(user_id=user_id).all()
+    return jsonify({'user owner groups': [i.to_dict() for i in owner_groups], 'user participant groups': [i.to_dict() for i in participant_groups]}), 200
+
+
+@app.route('/create_group', methods=['POST'])
+def create_group():
+    data = request.json
+    user_id = jwt.decode(data.get(
+        'access_token'), ACCESS_TOKEN_SECRET_KEY, algorithms=['HS256'])['user']['id']
+    group_name = data.get('name')
+    res = create_group_db(group_name, user_id)
+    if res is True:
+        return jsonify({'message': 'group was created'}), 200
+    else:
+        return jsonify({'message': f'Error: {res}'}), 401
+
+
+@app.route('/add_user_to_group', methods=['POST'])
+def add_user_to_group():
+    data = request.json
+    user_id = jwt.decode(data.get(
+        'access_token'), ACCESS_TOKEN_SECRET_KEY, algorithms=['HS256'])['user']['id']
+    group_id = data.get('group_id')
+    res = add_user_to_group_db(user_id, group_id)
+    if res is True:
+        return jsonify({'message': 'user was added to group'}), 200
+    else:
+        return jsonify({'message': f'Error: {res}'}), 401
+
+
+@app.route('/get_owner_username', methods=['POST'])
+def get_owner_username():
+    group_id = request.json.get('group_id')
+    owner_id = Groups.query.filter_by(id=group_id).first().owner_id
+    user = User.query.filter_by(id=owner_id).first()
+    if user:
+        return jsonify({'username': user.username}), 200
+
+
+@app.route('/get_group_members', methods=['POST'])
+def get_group_members():
+    group_id = request.json.get('group_id')
+    members = GroupsMembers.query.filter_by(group_id=group_id).all()
+    return jsonify({'members': [i.to_dict() for i in members]}), 200
 
 
 if __name__ == '__main__':
