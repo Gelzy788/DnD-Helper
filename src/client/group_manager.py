@@ -76,8 +76,10 @@ class GroupManager(QMainWindow):
         loadUi('data\\ui_files\\group_list_screen.ui', self)
 
         self.create_group_btn.clicked.connect(self.create_group)
-        self.back_btn.clicked.connect(self.switch_to_back_screen)
+        self.back_btn.clicked.connect(self.switch_to_main_screen)
         self.join_group_btn.clicked.connect(self.join_group)
+        # self.main_window.notebook_screen.plot_btn.clicked.connect(
+        #     self.switch_to_notebook)
 
     @token_required
     def load_groups(self):
@@ -113,7 +115,8 @@ class GroupManager(QMainWindow):
                 button = QPushButton(self)
                 button.setText(f'{i['name']}')
                 self.buttons.append(button)
-                button.setProperty('group_id', i['id'])
+                button.setProperty('group_id', i['group_id'])
+                # print(f'{i['name']} - {i['group_id']}')
                 button.setProperty('dm', False)
                 button.setFixedSize(400, 50)
                 button.clicked.connect(
@@ -189,11 +192,11 @@ class GroupManager(QMainWindow):
     def switch_to_group_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.groups_screen)
-        self.load_group_members()
+        self.load_group_interface()
         self.main_window.groups_screen.back_btn.clicked.connect(
             self.main_window.switch_to_group_list_screen)
 
-    def load_group_members(self):
+    def load_group_interface(self):
         screen = self.main_window.groups_screen
         group_id = self.sender().property('group_id')
         is_dm = self.sender().property('dm')
@@ -205,11 +208,14 @@ class GroupManager(QMainWindow):
             if response.status_code == 200:
                 screen.dm_name.setText(response.json().get('username'))
 
+        screen.group_id_lb.setText(str(group_id))
+
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/get_group_members', json={'group_id': group_id})
 
         if response.status_code == 200:
             members = response.json().get('members')
+            # print(members)
 
             button_widget = QWidget()
             button_layout = QVBoxLayout(button_widget)
@@ -225,7 +231,32 @@ class GroupManager(QMainWindow):
 
             button_widget.setLayout(button_layout)
             scroll_area.setWidget(button_widget)
+        else:
+            print("ОШИБКА")
+        screen.plot_btn.setProperty('id', group_id)
+        screen.plot_btn.setProperty('is_dm', is_dm)
+        screen.plot_btn.clicked.connect(self.switch_to_notebook)
 
-    def switch_to_back_screen(self):
+    def switch_to_notebook(self):
+        group_id = self.sender().property('id')
+        screen = self.main_window.notebook_screen
+        self.main_window.stacked_widget.setCurrentWidget(screen)
+
+        response = requests.post(
+            f'http://{IP_ADDRESS}:{PORT}/get_plot', json={'group_id': group_id})
+
+        if response.status_code == 200:
+            screen.plot_editor.setPlainText(response.json().get('plot'))
+
+        if self.sender().property('is_dm'):
+            screen.plot_editor.setReadOnly(False)
+        else:
+            screen.plot_editor.setReadOnly(True)
+
+        screen.back_btn.setProperty('group_id', group_id)
+        screen.back_btn.setProperty('dm', self.sender().property('is_dm'))
+        screen.back_btn.clicked.connect(self.switch_to_group_screen)
+
+    def switch_to_main_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.main_window)

@@ -53,6 +53,7 @@ class MainWindow(QMainWindow):
         self.friend_requests_screen = loadUi(
             'data/ui_files/friend_requests_screen.ui')
         self.groups_screen = loadUi('data/ui_files/group_screen.ui')
+        self.notebook_screen = loadUi('data/ui_files/notebook_screen.ui')
 
         # Добавление экранов в QStackedWidget
         self.stacked_widget.addWidget(self.profile_manager)
@@ -68,6 +69,7 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.questionnaire_edit_screen)
         self.stacked_widget.addWidget(self.friend_requests_screen)
         self.stacked_widget.addWidget(self.groups_screen)
+        self.stacked_widget.addWidget(self.notebook_screen)
 
         # Установка начального экрана
         self.stacked_widget.setCurrentWidget(self.main_window)
