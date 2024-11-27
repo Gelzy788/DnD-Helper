@@ -257,6 +257,7 @@ class GroupManager(QMainWindow):
         screen.back_btn.setProperty('dm', self.sender().property('is_dm'))
         screen.back_btn.clicked.connect(self.switch_to_group_screen)
 
+# Бесполезный комментарий
     def switch_to_main_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.main_window)
