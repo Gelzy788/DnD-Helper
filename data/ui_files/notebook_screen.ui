@@ -20,7 +20,7 @@
       <x>0</x>
       <y>0</y>
       <width>731</width>
-      <height>411</height>
+      <height>391</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -37,7 +37,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>420</y>
+      <y>390</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -56,8 +56,20 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Редактор</string>
+    </property>
+    <addaction name="save_btn"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="save_btn">
+   <property name="text">
+    <string>Сохранить</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

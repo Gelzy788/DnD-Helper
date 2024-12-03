@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QLabel, QPushButton
+from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QLabel, QMessageBox
 from PyQt6.uic import loadUi
 import requests
 from my_config import *
@@ -25,15 +25,23 @@ class ProfileManager(QMainWindow):
                 print('ОШИБКА')
                 self.main_window.stacked_widget.setCurrentWidget(
                     self.main_window.main_window)
-            if not self.is_access_token_expiring_soon():
-                print("Токен истекает, обновляем...")
-                self.refresh_access_token()
-            if self.access_token == '':
-                print("Токен недействителен, перенаправляем на экран входа...")
-                self.main_window.stacked_widget.setCurrentWidget(
-                    self.main_window.login_manager)
-                return
-            return func(self, *args, **kwargs)
+            try:
+                if not self.is_access_token_expiring_soon():
+                    print("Токен истекает, обновляем...")
+                    self.refresh_access_token()
+                if self.access_token == '':
+                    print("Токен недействителен, перенаправляем на экран входа...")
+                    self.main_window.switch_to_login_screen()
+                    return
+                return func(self, *args, **kwargs)
+            except Exception as e:
+                self.switch_to_main_screen()
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Icon.Critical)
+                msg.setText(f"Нет подключения к интернету")
+                msg.setWindowTitle("Error")
+                msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+                msg.exec()
         return wrapper
 
     def get_access_token(self):
@@ -47,7 +55,6 @@ class ProfileManager(QMainWindow):
 
     @token_required
     def load_profile_data(self):
-        print('>>>>|', access_token)
         response = requests.get(
             f'http://{IP_ADDRESS}:{PORT}/profile', headers={'Authorization': f'Bearer {self.access_token}'})
 

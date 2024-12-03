@@ -11,7 +11,7 @@ class RegisterManager(QMainWindow):
         self.init_ui()
 
     def init_ui(self):
-        loadUi('data\\ui_files//registration_screen.ui', self)
+        loadUi('data/ui_files/registration_screen.ui', self)
         self.email_le.clear()
         self.password_le.clear()
         self.username_le.clear()
@@ -24,7 +24,7 @@ class RegisterManager(QMainWindow):
         password = self.password_le.text()
         username = self.username_le.text()
 
-        if email != '' and password != '':
+        if email != '' and password != '' and username != '':
             response = requests.post(
                 f'http://{IP_ADDRESS}:{PORT}/registration', json={'email': email, 'password': password, 'username': username})
 

@@ -12,7 +12,7 @@ class LoginManager(QMainWindow):
         # self.load_tokens()
 
     def init_ui(self):
-        loadUi('data\\ui_files\\login_screen.ui', self)
+        loadUi('data/ui_files/login_screen.ui', self)
 
         self.login_btn.clicked.connect(self.login)
         self.to_main_btn.clicked.connect(self.go_back)
@@ -40,10 +40,10 @@ class LoginManager(QMainWindow):
             print('login successful')
         else:
             self.login_res.setText('login failed')
-        
-        with open("tokens.txt", 'r') as f:
-                print(access_token, '>>', refresh_token)
-                print(f.readlines())
+
+        # with open("tokens.txt", 'r') as f:
+        #     print(access_token, '>>', refresh_token)
+        #     print(f.readlines())
 
     def go_back(self):
         self.main_window.stacked_widget.setCurrentWidget(

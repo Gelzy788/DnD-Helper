@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QPushButton, QStackedWidget
+from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QPushButton, QMessageBox
 import requests
 from my_config import *
 from PyQt6.uic import loadUi
@@ -25,15 +25,23 @@ class QuestionnaireManager(QMainWindow):
                 print('ОШИБКА')
                 self.main_window.stacked_widget.setCurrentWidget(
                     self.main_window.main_window)
-            if not self.is_access_token_expiring_soon():
-                print("Токен истекает, обновляем...")
-                self.refresh_access_token()
-            if self.access_token == '':
-                print("Токен недействителен, перенаправляем на экран входа...")
-                self.main_window.stacked_widget.setCurrentWidget(
-                    self.main_window.login_manager)
-                return
-            return func(self, **kwargs)
+            try:
+                if not self.is_access_token_expiring_soon():
+                    print("Токен истекает, обновляем...")
+                    self.refresh_access_token()
+                if self.access_token == '':
+                    print("Токен недействителен, перенаправляем на экран входа...")
+                    self.main_window.switch_to_login_screen()
+                    return
+                return func(self, *args, **kwargs)
+            except Exception as e:
+                self.switch_to_main_screen()
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Icon.Critical)
+                msg.setText(f"Нет подключения к интернету")
+                msg.setWindowTitle("Error")
+                msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+                msg.exec()
         return wrapper
 
     def refresh_access_token(self):

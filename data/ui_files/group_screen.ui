@@ -102,34 +102,37 @@
      </property>
     </widget>
    </widget>
-   <widget class="QCalendarWidget" name="calendarWidget">
+   <widget class="QCalendarWidget" name="games_calendar">
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>100</y>
+      <y>70</y>
       <width>261</width>
       <height>191</height>
      </rect>
     </property>
+    <property name="selectionMode">
+     <enum>QCalendarWidget::NoSelection</enum>
+    </property>
    </widget>
-   <widget class="QPushButton" name="plot_btn">
+   <widget class="QPushButton" name="set_game_date_btn">
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>310</y>
+      <y>270</y>
       <width>261</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Сюжет игры</string>
+     <string>Выбрать дату следующей игры</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>360</y>
+      <y>380</y>
       <width>101</width>
       <height>31</height>
      </rect>
@@ -142,13 +145,26 @@
     <property name="geometry">
      <rect>
       <x>560</x>
-      <y>360</y>
+      <y>380</y>
       <width>91</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;TextLabel&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="plot_btn">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>320</y>
+      <width>261</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Сюжет игры</string>
     </property>
    </widget>
   </widget>

@@ -1,13 +1,36 @@
-from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QPushButton, QInputDialog, QMessageBox, QLabel
+from PyQt6.QtWidgets import QMainWindow, QDialog, QDateEdit, QVBoxLayout, QWidget, QPushButton, QInputDialog, QMessageBox, QLabel
 from PyQt6.uic import loadUi
+from PyQt6.QtCore import QDate
 import requests
 from my_config import *
+
+
+class DateInputDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Выберите дату")
+
+        self.layout = QVBoxLayout(self)
+
+        self.date_edit = QDateEdit(self)
+        # Включаем всплывающее окно календаря
+        self.date_edit.setCalendarPopup(True)
+        self.layout.addWidget(self.date_edit)
+
+        self.ok_button = QPushButton("ОК", self)
+        self.ok_button.clicked.connect(self.accept)
+        self.layout.addWidget(self.ok_button)
+
+    def get_date(self):
+        return self.date_edit.date().toString("dd-MM-yyyy")
 
 
 class GroupManager(QMainWindow):
     def __init__(self, main_window):
         super().__init__()
         self.main_window = main_window
+        self.access_token = access_token
+        self.refresh_token = refresh_token
         self.init_ui()
 
     @staticmethod
@@ -22,15 +45,24 @@ class GroupManager(QMainWindow):
                 print('ОШИБКА')
                 self.main_window.stacked_widget.setCurrentWidget(
                     self.main_window.main_window)
-            if not self.is_access_token_expiring_soon():
-                print("Токен истекает, обновляем...")
-                self.refresh_access_token()
-            if self.access_token == '':
-                print("Токен недействителен, перенаправляем на экран входа...")
-                self.main_window.stacked_widget.setCurrentWidget(
-                    self.main_window.login_manager)
-                return
-            return func(self, **kwargs)
+            try:
+                if not self.is_access_token_expiring_soon():
+                    print("Токен истекает, обновляем...")
+                    self.refresh_access_token()
+                if self.access_token == '':
+                    print("Токен недействителен, перенаправляем на экран входа...")
+                    self.main_window.switch_to_login_screen()
+                    return
+                return func(self, **kwargs)
+            except Exception as e:
+                print(str(e))
+                self.switch_to_main_screen()
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Icon.Critical)
+                msg.setText(f"Нет подключения к интернету")
+                msg.setWindowTitle("Error")
+                msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+                msg.exec()
         return wrapper
 
     def refresh_access_token(self):
@@ -41,8 +73,7 @@ class GroupManager(QMainWindow):
             try:
                 json_response = response.json()
                 self.access_token = json_response.get('access_token')
-                self.access_token = json_response.get(
-                    'access_token')  # ДОБАВИЛ .self!
+                access_token = json_response.get('access_token')
                 with open('tokens.txt', 'w') as f:
                     f.write(self.access_token)
                     f.write('\n')
@@ -73,11 +104,22 @@ class GroupManager(QMainWindow):
             return None
 
     def init_ui(self):
-        loadUi('data\\ui_files\\group_list_screen.ui', self)
+        loadUi('data/ui_files/group_list_screen.ui', self)
+
+        self.group_screen = self.main_window.group_screen
+        self.notebook_screen = self.main_window.notebook_screen
 
         self.create_group_btn.clicked.connect(self.create_group)
         self.back_btn.clicked.connect(self.switch_to_main_screen)
         self.join_group_btn.clicked.connect(self.join_group)
+        self.notebook_screen.back_btn.clicked.connect(
+            self.switch_to_group_screen_with_save)
+        self.notebook_screen.save_btn.triggered.connect(
+            self.save_plot)
+        self.group_screen.back_btn.clicked.connect(
+            self.switch_to_group_list_screen)
+        self.group_screen.plot_btn.clicked.connect(self.switch_to_notebook)
+        self.group_screen.set_game_date_btn.clicked.connect(self.set_game_date)
         # self.main_window.notebook_screen.plot_btn.clicked.connect(
         #     self.switch_to_notebook)
 
@@ -189,75 +231,107 @@ class GroupManager(QMainWindow):
             msg.setStandardButtons(QMessageBox.StandardButton.Ok)
             msg.exec()
 
+    @token_required
     def switch_to_group_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
-            self.main_window.groups_screen)
+            self.main_window.group_screen)
         self.load_group_interface()
-        self.main_window.groups_screen.back_btn.clicked.connect(
-            self.main_window.switch_to_group_list_screen)
+        # self.main_window.groups_screen.back_btn.clicked.connect(
+        #     self.switch_to_group_list_screen)
 
+    def switch_to_group_list_screen(self):
+        self.main_window.stacked_widget.setCurrentWidget(
+            self.main_window.group_manager)
+        self.load_groups()
+
+    @token_required
     def load_group_interface(self):
-        screen = self.main_window.groups_screen
-        group_id = self.sender().property('group_id')
-        is_dm = self.sender().property('dm')
-        if is_dm:
-            screen.dm_name.setText('ВЫ')
+        if self.sender().property('group_id'):
+            self.group_id = self.sender().property('group_id')
+            self.is_dm = self.sender().property('dm')
+        if self.is_dm:
+            self.group_screen.dm_name.setText('ВЫ')
         else:
             response = requests.post(
-                f'http://{IP_ADDRESS}:{PORT}/get_owner_username', json={'group_id': group_id})
+                f'http://{IP_ADDRESS}:{PORT}/get_owner_username', json={'group_id': self.group_id})
             if response.status_code == 200:
-                screen.dm_name.setText(response.json().get('username'))
+                self.group_screen.dm_name.setText(
+                    response.json().get('username'))
+                print(response.json().get('date'))
 
-        screen.group_id_lb.setText(str(group_id))
+        self.group_screen.group_id_lb.setText(str(self.group_id))
 
         response = requests.post(
-            f'http://{IP_ADDRESS}:{PORT}/get_group_members', json={'group_id': group_id})
+            f'http://{IP_ADDRESS}:{PORT}/get_group_info', json={'group_id': self.group_id})
 
         if response.status_code == 200:
             members = response.json().get('members')
-            # print(members)
+            game_date = response.json().get('game_date')
+
+            date = QDate.fromString(game_date, 'yyyy-MM-dd')
+            self.group_screen.games_calendar.setSelectedDate(date)
 
             button_widget = QWidget()
             button_layout = QVBoxLayout(button_widget)
-            scroll_area = screen.scroll_area
+            scroll_area = self.group_screen.scroll_area
 
             button_layout.setSpacing(10)
 
             for i in members:
-                member = QLabel(screen)
+                member = QLabel(self.group_screen)
                 member.setText(i['username'])
                 member.setFixedSize(400, 50)
                 button_layout.addWidget(member)
 
             button_widget.setLayout(button_layout)
             scroll_area.setWidget(button_widget)
+
+            if not self.is_dm:
+                self.group_screen.set_game_date_btn.hide()
+            else:
+                self.group_screen.set_game_date_btn.show()
         else:
             print("ОШИБКА")
-        screen.plot_btn.setProperty('id', group_id)
-        screen.plot_btn.setProperty('is_dm', is_dm)
-        screen.plot_btn.clicked.connect(self.switch_to_notebook)
 
+    @token_required
     def switch_to_notebook(self):
-        group_id = self.sender().property('id')
-        screen = self.main_window.notebook_screen
-        self.main_window.stacked_widget.setCurrentWidget(screen)
+        self.main_window.stacked_widget.setCurrentWidget(self.notebook_screen)
 
         response = requests.post(
-            f'http://{IP_ADDRESS}:{PORT}/get_plot', json={'group_id': group_id})
+            f'http://{IP_ADDRESS}:{PORT}/get_plot', json={'group_id': self.group_id})
 
         if response.status_code == 200:
-            screen.plot_editor.setPlainText(response.json().get('plot'))
+            self.notebook_screen.plot_editor.setPlainText(
+                response.json().get('plot'))
 
-        if self.sender().property('is_dm'):
-            screen.plot_editor.setReadOnly(False)
+        if self.is_dm:
+            self.notebook_screen.plot_editor.setReadOnly(False)
         else:
-            screen.plot_editor.setReadOnly(True)
+            self.notebook_screen.menubar.setVisible(False)
+            self.notebook_screen.plot_editor.setReadOnly(True)
 
-        screen.back_btn.setProperty('group_id', group_id)
-        screen.back_btn.setProperty('dm', self.sender().property('is_dm'))
-        screen.back_btn.clicked.connect(self.switch_to_group_screen)
+    def save_plot(self):
+        response = requests.post(
+            f'http://{IP_ADDRESS}:{PORT}/edit_plot', json={'group_id': self.group_id, 'plot': self.main_window.notebook_screen.plot_editor.toPlainText()})
+        if response.status_code == 200:
+            print('plot was edited')
 
-# Бесполезный комментарий
+    @token_required
+    def switch_to_group_screen_with_save(self):
+        self.save_plot()
+        self.main_window.stacked_widget.setCurrentWidget(
+            self.main_window.group_screen)
+        self.load_group_interface()
+        self.main_window.group_screen.back_btn.clicked.connect(
+            self.switch_to_group_list_screen)
+
+    def set_game_date(self):
+        dialog = DateInputDialog(self)
+        if dialog.exec():
+            selected_date = dialog.get_date()
+            response = requests.post(
+                f'http://{IP_ADDRESS}:{PORT}/set_game_date', json={'group_id': self.group_id, 'date': selected_date})
+
     def switch_to_main_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.main_window)
