@@ -33,7 +33,7 @@ class QuestionnaireManager(QMainWindow):
                     print("Токен недействителен, перенаправляем на экран входа...")
                     self.main_window.switch_to_login_screen()
                     return
-                return func(self, *args, **kwargs)
+                return func(self, **kwargs)
             except Exception as e:
                 self.switch_to_main_screen()
                 msg = QMessageBox()

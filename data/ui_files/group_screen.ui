@@ -167,6 +167,32 @@
      <string>Сюжет игры</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="connect_questionnaire_btn">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>410</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Привязать анкету</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="kick_member_btn">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>410</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Кикнуть пользователя</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

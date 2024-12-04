@@ -120,6 +120,9 @@ class GroupManager(QMainWindow):
             self.switch_to_group_list_screen)
         self.group_screen.plot_btn.clicked.connect(self.switch_to_notebook)
         self.group_screen.set_game_date_btn.clicked.connect(self.set_game_date)
+        self.group_screen.connect_questionnaire_btn.clicked.connect(
+            self.connect_questionnaire)
+        self.group_screen.kick_member_btn.clicked.connect(self.kick_member)
         # self.main_window.notebook_screen.plot_btn.clicked.connect(
         #     self.switch_to_notebook)
 
@@ -257,7 +260,7 @@ class GroupManager(QMainWindow):
             if response.status_code == 200:
                 self.group_screen.dm_name.setText(
                     response.json().get('username'))
-                print(response.json().get('date'))
+                # print(response.json().get('date'))
 
         self.group_screen.group_id_lb.setText(str(self.group_id))
 
@@ -269,27 +272,37 @@ class GroupManager(QMainWindow):
             game_date = response.json().get('game_date')
 
             date = QDate.fromString(game_date, 'yyyy-MM-dd')
+            # print(members)
             self.group_screen.games_calendar.setSelectedDate(date)
 
-            button_widget = QWidget()
-            button_layout = QVBoxLayout(button_widget)
+            names_widget = QWidget()
+            names_layout = QVBoxLayout(names_widget)
             scroll_area = self.group_screen.scroll_area
 
-            button_layout.setSpacing(10)
+            names_layout.setSpacing(10)
 
             for i in members:
                 member = QLabel(self.group_screen)
-                member.setText(i['username'])
+                if i['questionnaire']:
+                    member.setText(
+                        f'({i['user_id']}) {i['username']} - {i['questionnaire']['character_name']}')
+                else:
+                    member.setText(
+                        f'({i['user_id']}) {i['username']}')
                 member.setFixedSize(400, 50)
-                button_layout.addWidget(member)
+                names_layout.addWidget(member)
 
-            button_widget.setLayout(button_layout)
-            scroll_area.setWidget(button_widget)
+            names_widget.setLayout(names_layout)
+            scroll_area.setWidget(names_widget)
 
             if not self.is_dm:
                 self.group_screen.set_game_date_btn.hide()
+                self.group_screen.connect_questionnaire_btn.show()
+                self.group_screen.kick_member_btn.hide()
             else:
                 self.group_screen.set_game_date_btn.show()
+                self.group_screen.connect_questionnaire_btn.hide()
+                self.group_screen.kick_member_btn.show()
         else:
             print("ОШИБКА")
 
@@ -331,6 +344,60 @@ class GroupManager(QMainWindow):
             selected_date = dialog.get_date()
             response = requests.post(
                 f'http://{IP_ADDRESS}:{PORT}/set_game_date', json={'group_id': self.group_id, 'date': selected_date})
+            self.load_group_interface()
+
+    def connect_questionnaire(self):
+        response = requests.post(
+            f'http://{IP_ADDRESS}:{PORT}/get_questionnaires', json={'access_token': self.access_token})
+        questionnaires = response.json().get('questionnaires')
+        names = []
+        questionnaire_dct = {}
+        for i in questionnaires:
+            names.append(f'{i['character_name']}')
+            questionnaire_dct[i['character_name']] = i['id']
+
+        questionnaire, ok = QInputDialog.getItem(
+            self, 'Questionnaire selection', 'Select questionnaire:', names, 0, False)
+        if ok and questionnaire:
+            response = requests.post(
+                f'http://{IP_ADDRESS}:{PORT}/connect_questionnaire', json={'group_id': self.group_id, 'access_token': self.access_token, 'questionnaire_id': questionnaire_dct[questionnaire]})
+
+            if response.status_code == 200:
+                print('questionnaire has boon connected')
+            self.load_group_interface()
+        else:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Icon.Warning)
+            msg.setText(f"У вас нет анкет")
+            msg.setWindowTitle("Questionnaire connect")
+            msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+            msg.exec()
+
+    def kick_member(self):
+        members = []
+        names_lo = self.group_screen.scroll_area.widget().layout()
+
+        for i in range(names_lo.count()):
+            members.append(names_lo.itemAt(i).widget().text())
+
+        member, ok = QInputDialog.getItem(
+            self, 'Kick member', 'Select member:', members, 0, False)
+
+        if ok and member:
+            response = requests.post(
+                f'http://{IP_ADDRESS}:{PORT}/kick_member', json={'group_id': self.group_id, 'member_id': int(member.lstrip('()').split(')')[0])})
+
+            if response.status_code == 200:
+                print('member has been kicked')
+                self.load_group_interface()
+
+        else:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Icon.Warning)
+            msg.setText(f"Выберите пользователя")
+            msg.setWindowTitle("Kick member")
+            msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+            msg.exec()
 
     def switch_to_main_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
