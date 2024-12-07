@@ -71,8 +71,7 @@ class QuestionnaireManager(QMainWindow):
     # Функция проверки того, насколько скоро access токен прекратит работу
     def is_access_token_expiring_soon(self):
         response = requests.post(
-            f"http://{IP_ADDRESS}:{PORT}/access-token-expiration',
-            json={'access_token': self.access_token}")
+            f"http://{IP_ADDRESS}:{PORT}/access-token-expiration", json={'access_token': self.access_token})
 
         if response.status_code == 200 and response.content:
             try:
