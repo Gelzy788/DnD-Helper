@@ -51,6 +51,7 @@ class Questionnaire(db.Model):
     experience = db.Column(db.Integer, default=0)
     level = db.Column(db.Integer, default=1)
     character_name = db.Column(db.String(32))
+    avatar_url = db.Column(db.String(256), nullable=True)
 
     def to_dict(self):
         return {
@@ -62,7 +63,8 @@ class Questionnaire(db.Model):
             'worldview': self.worldview,
             'experience': self.experience,
             'level': self.level,
-            'character_name': self.character_name
+            'character_name': self.character_name,
+            'avatar_url': self.avatar_url
         }
 
 
@@ -70,7 +72,7 @@ class Groups(db.Model):
     __tablename__ = 'users_groups'
     id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
     name = db.Column(db.String(64))
-    next_game_date = db.Column(db.Date)
+    game_date = db.Column(db.Date)
     owner_id = db.Column(db.BigInteger, db.ForeignKey(
         'users.id'), nullable=False)
     plot = db.Column(db.Text())
@@ -80,7 +82,7 @@ class Groups(db.Model):
             'id': self.id,
             'name': self.name,
             # Преобразуем дату в строку
-            'next_game_date': self.next_game_date.isoformat() if self.next_game_date else None,
+            'game_date': self.game_date.isoformat() if self.game_date else None,
             'owner_id': self.owner_id,
             'plot': self.plot,
         }
@@ -93,14 +95,18 @@ class GroupsMembers(db.Model):
         'users_groups.id'), nullable=False)
     user_id = db.Column(db.BigInteger, db.ForeignKey(
         'users.id'), nullable=False)
+    member_questionnaire_id = db.Column(
+        db.BigInteger, db.ForeignKey('questionnaires.id'))
 
     def to_dict(self):
+        questionnaire = Questionnaire.query.get(self.member_questionnaire_id)
         return {
             'id': self.id,
             'group_id': self.group_id,
             'user_id': self.user_id,
             'name': Groups.query.get(self.group_id).to_dict()['name'],
-            'username': User.query.get(self.user_id).to_dict()['username']
+            'username': User.query.get(self.user_id).to_dict()['username'],
+            'questionnaire': questionnaire.to_dict() if questionnaire else None
         }
 
 

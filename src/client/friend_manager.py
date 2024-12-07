@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QPushButton, QInp
 from PyQt6.uic import loadUi
 import requests
 from my_config import *
-from my_token import token_required
+# from archive.my_token import token_required
 
 
 class FriendManager(QMainWindow):
@@ -13,6 +13,7 @@ class FriendManager(QMainWindow):
         self.refresh_token = refresh_token
         self.init_ui()
 
+    # декоратор для проверки актуальности access токена перед его использованием
     @staticmethod
     def token_required(func):
         def wrapper(self, *args, **kwargs):
@@ -45,6 +46,7 @@ class FriendManager(QMainWindow):
                 msg.exec()
         return wrapper
 
+    # Функция обновления access токена
     def refresh_access_token(self):
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/refresh-token', json={'refresh_token': self.refresh_token})
@@ -68,6 +70,7 @@ class FriendManager(QMainWindow):
                 print("Ошибка декодирования JSON: пустой или некорректный ответ")
             print("Некорректный ответ от сервера или ошибка соединения")
 
+    # Функция проверки того, насколько скоро access токен прекратит работу
     def is_access_token_expiring_soon(self):
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/access-token-expiration',
@@ -87,15 +90,22 @@ class FriendManager(QMainWindow):
     def init_ui(self):
         loadUi('data\\ui_files\\frends_list_screen.ui', self)
 
-        # self.friend_requests_screen = loadUi('data/ui_files/friend_requests_screen.ui')
-
+        # Привязка функционала кнопок
         self.add_friend_btn.clicked.connect(self.add_friend)
         self.back_btn.clicked.connect(self.switch_to_main_menu)
         self.friend_requests_btn.clicked.connect(
             self.switch_to_friend_requests_screen)
+        self.throw_dice_btn.clicked.connect(self.main_window.throw_dice)
+        self.account_btn.clicked.connect(
+            self.main_window.switch_to_profile_screen)
+        self.main_window.friend_requests_screen.throw_dice_btn.clicked.connect(
+            self.main_window.throw_dice)
+        self.main_window.friend_requests_screen.account_btn.clicked.connect(
+            self.main_window.switch_to_profile_screen)
 
         self.setLayout(QVBoxLayout())
 
+    # Добавление в друзья
     @token_required
     def add_friend(self):
         id, ok = QInputDialog.getText(self, 'Input Dialog', 'Enter user ID:')
@@ -114,6 +124,7 @@ class FriendManager(QMainWindow):
                 msg.setStandardButtons(QMessageBox.StandardButton.Ok)
                 msg.exec()
 
+    # Подгрузка списка друзей
     @token_required
     def load_friends_data(self):
         response = requests.post(
@@ -148,6 +159,7 @@ class FriendManager(QMainWindow):
             print("Ошибка загрузки друзей:",
                   response.status_code, response.text)
 
+    # Переход на страницу приглашений в друзья
     def switch_to_friend_requests_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.friend_requests_screen)
@@ -155,6 +167,7 @@ class FriendManager(QMainWindow):
             self.main_window.switch_to_friends_list_screen)
         self.load_friend_requests()
 
+    # Подгрузка списка приглашений в друзья
     @token_required
     def load_friend_requests(self):
         response = requests.post(
@@ -192,6 +205,7 @@ class FriendManager(QMainWindow):
             print("Ошибка загрузки друзей:",
                   response.status_code, response.text)
 
+    # Принятие запроса в друзья
     @token_required
     def accept_friend_request(self):
         msg = QMessageBox()
@@ -223,6 +237,7 @@ class FriendManager(QMainWindow):
             else:
                 print(response.json().get('message'))
 
+    # Удаление человека из друзей
     def delete_friend(self):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Icon.Question)
@@ -243,6 +258,7 @@ class FriendManager(QMainWindow):
             else:
                 print(response.json().get('message'))
 
+    # Переход на главную страницу
     def switch_to_main_menu(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.main_window)

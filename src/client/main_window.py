@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QMainWindow, QStackedWidget, QInputDialog, QMessageBox
+from PyQt6.QtWidgets import QMainWindow, QStackedWidget, QInputDialog, QMessageBox, QWidget
 from random import randint
 from friend_manager import FriendManager
 from questionnaire_manager import QuestionnaireManager
@@ -13,22 +13,7 @@ from my_config import *
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        loadUi('data\\ui_files\\main_screen.ui', self)
-
-        # with open("tokens.txt", 'r') as f:
-        #         print('MAIN WONDOW:')
-        #         print(access_token, '>>', refresh_token)
-        #         print(f.readlines())
-        #         print(';;;')
-
-        # try:
-        #     with open('tokens.txt', 'r') as f:
-        #         data = f.readlines()
-        #         access_token = data[0].strip()
-        #         refresh_token = data[1].strip()
-        # except Exception as e1:
-        #     access_token = ''
-        #     refresh_token = ''
+        loadUi('data/ui_files/main_screen.ui', self)
 
         self.stacked_widget = QStackedWidget()
         self.setCentralWidget(self.stacked_widget)
@@ -54,7 +39,6 @@ class MainWindow(QMainWindow):
         self.friend_manager = FriendManager(self)
         self.questionnaire_manager = QuestionnaireManager(self)
         self.group_manager = GroupManager(self)
-        # self.notebook_screen = loadUi('data/ui_files/notebook_screen.ui')
 
         # Добавление экранов в QStackedWidget
         self.stacked_widget.addWidget(self.profile_manager)
@@ -91,32 +75,39 @@ class MainWindow(QMainWindow):
         # self.groups_screen.back_btn.clicked.connect(
         #     self.main_window.switch_to_group_list_screen)
 
+    # Переход на страницу регистрации
     def switch_to_registration_screen(self):
         self.stacked_widget.setCurrentWidget(self.register_manager)
 
+    # Переход на страницу входа
     def switch_to_login_screen(self):
         self.login_manager.email_le.clear()
         self.login_manager.password_le.clear()
         self.login_manager.login_res.clear()
         self.stacked_widget.setCurrentWidget(self.login_manager)
 
+    # Переход на страницу со списком групп
     def switch_to_group_list_screen(self):
         self.stacked_widget.setCurrentWidget(self.group_manager)
         self.group_manager.load_groups()
 
+    # Переход на страницу со списком друзей
     def switch_to_friends_list_screen(self):
         self.stacked_widget.setCurrentWidget(self.friend_manager)
         self.friend_manager.load_friends_data()
 
+    # Переход на страницу профиля
     def switch_to_profile_screen(self):
         # Загружаем данные профиля при переключении
         self.stacked_widget.setCurrentWidget(self.profile_manager)
         self.profile_manager.load_profile_data()
 
+    # Переход на страницу анкет
     def switch_to_questionnaire_screen(self):
         self.stacked_widget.setCurrentWidget(self.questionnaire_manager)
         self.questionnaire_manager.load_questionnaire_data()
 
+    # Функция бросания дайсов
     def throw_dice(self):
         dices = ['D2', 'D4', 'D6', 'D8', 'D10', 'D12', 'D20']
         dice, ok = QInputDialog.getItem(

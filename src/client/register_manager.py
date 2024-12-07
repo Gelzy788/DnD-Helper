@@ -19,6 +19,7 @@ class RegisterManager(QMainWindow):
         self.to_main_btn.clicked.connect(self.go_back)
         self.reg_btn.clicked.connect(self.register)
 
+    # Регистрация пользователя
     def register(self):
         email = self.email_le.text()
         password = self.password_le.text()
@@ -39,6 +40,7 @@ class RegisterManager(QMainWindow):
             self.reg_res.setText('registration failed')
             print('registration failed')
 
+    # Переход на главный экран
     def go_back(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.main_window)

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>731</width>
+    <height>491</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,6 +23,12 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 5px; /* Закругление углов (по желанию) */
+</string>
+    </property>
    </widget>
    <widget class="QLineEdit" name="password_le">
     <property name="geometry">
@@ -33,6 +39,13 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 5px; /* Закругление углов (по желанию) */
+</string>
+    </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -42,6 +55,11 @@
       <width>81</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(240, 155, 89);
+
+</string>
     </property>
     <property name="text">
      <string>Email</string>
@@ -56,6 +74,11 @@
       <height>16</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">
+  color: rgb(240, 155, 89);
+</string>
+    </property>
     <property name="text">
      <string>Password</string>
     </property>
@@ -69,6 +92,23 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+  color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+  /* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+
+
+</string>
+    </property>
     <property name="text">
      <string>Назад</string>
     </property>
@@ -81,6 +121,22 @@
       <width>111</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+  color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+  /* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+
+</string>
     </property>
     <property name="text">
      <string>Войти</string>
@@ -99,13 +155,36 @@
      <string/>
     </property>
    </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-30</y>
+      <width>741</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url('data/textures/background.jpg');
+background-repeat: no-repeat; 
+background-position: center;</string>
+    </property>
+   </widget>
+   <zorder>widget</zorder>
+   <zorder>email_le</zorder>
+   <zorder>password_le</zorder>
+   <zorder>label</zorder>
+   <zorder>label_2</zorder>
+   <zorder>to_main_btn</zorder>
+   <zorder>login_btn</zorder>
+   <zorder>login_res</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>731</width>
      <height>22</height>
     </rect>
    </property>

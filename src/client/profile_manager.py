@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QLabel, QMessageBox
 from PyQt6.uic import loadUi
 import requests
 from my_config import *
-from my_token import token_required
+# from archive.my_token import token_required
 
 
 class ProfileManager(QMainWindow):
@@ -13,6 +13,7 @@ class ProfileManager(QMainWindow):
         self.refresh_token = refresh_token
         self.init_ui()
 
+    # декоратор для проверки актуальности access токена перед его использованием
     @staticmethod
     def token_required(func):
         def wrapper(self, *args, **kwargs):
@@ -44,6 +45,7 @@ class ProfileManager(QMainWindow):
                 msg.exec()
         return wrapper
 
+    # Функция получения access токена
     def get_access_token(self):
         return self.main_window.profile_manager.access_token
 
@@ -53,6 +55,7 @@ class ProfileManager(QMainWindow):
         self.main_screen_btn.clicked.connect(self.switch_to_main_screen)
         self.logout_btn.clicked.connect(self.logout)
 
+    # Функция подгрузки информации
     @token_required
     def load_profile_data(self):
         response = requests.get(
@@ -66,6 +69,7 @@ class ProfileManager(QMainWindow):
         else:
             print("Ошибка при загрузке данных профиля:", response.status_code)
 
+    # Функция обновления access токена
     def refresh_access_token(self):
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/refresh-token', json={'refresh_token': self.refresh_token})
@@ -88,6 +92,7 @@ class ProfileManager(QMainWindow):
                 print("Ошибка декодирования JSON: пустой или некорректный ответ")
             print("Некорректный ответ от сервера или ошибка соединения")
 
+    # Функция проверки того, насколько скоро access токен прекратит работу
     def is_access_token_expiring_soon(self):
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/access-token-expiration',
@@ -104,6 +109,7 @@ class ProfileManager(QMainWindow):
             print("Некорректный ответ от сервера или ошибка соединения")
             return None
 
+    # Выход из аккаунта
     def logout(self):
         self.access_token = ''
         self.refresh_token = ''
@@ -111,6 +117,7 @@ class ProfileManager(QMainWindow):
             f.write('')
         self.switch_to_main_screen()
 
+    # Переход на главный экран
     def switch_to_main_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.main_window)

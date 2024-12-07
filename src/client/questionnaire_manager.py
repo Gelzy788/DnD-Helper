@@ -13,6 +13,7 @@ class QuestionnaireManager(QMainWindow):
         self.refresh_token = refresh_token
         self.init_ui()
 
+    # декоратор для проверки актуальности access токена перед его использованием
     @staticmethod
     def token_required(func):
         def wrapper(self, *args, **kwargs):
@@ -44,6 +45,7 @@ class QuestionnaireManager(QMainWindow):
                 msg.exec()
         return wrapper
 
+    # Функция обновления access токена
     def refresh_access_token(self):
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/refresh-token', json={'refresh_token': self.refresh_token})
@@ -66,6 +68,7 @@ class QuestionnaireManager(QMainWindow):
                 print("Ошибка декодирования JSON: пустой или некорректный ответ")
             print("Некорректный ответ от сервера или ошибка соединения")
 
+    # Функция проверки того, насколько скоро access токен прекратит работу
     def is_access_token_expiring_soon(self):
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/access-token-expiration',
@@ -85,14 +88,29 @@ class QuestionnaireManager(QMainWindow):
     def init_ui(self):
         loadUi('data\\ui_files\\questionnaire_screen.ui', self)
 
+        self.create_questionnaire_screen = self.main_window.create_questionnaire_screen
+
+        # Привязка функционала кнопкам
         self.to_main_btn.clicked.connect(self.switch_to_main_screen)
         self.create_questionnaire_btn.clicked.connect(
             self.switch_to_create_questionnaire_screen)
-        # self.stacked_widget.setCurrentWidget(self.questionnaire_screen)
+        self.throw_dice_btn.clicked.connect(self.main_window.throw_dice)
+        self.account_btn.clicked.connect(
+            self.main_window.switch_to_profile_screen)
+        self.main_window.questionnaire_info_screen.throw_dice_btn.clicked.connect(
+            self.main_window.throw_dice)
+        self.main_window.questionnaire_info_screen.account_btn.clicked.connect(
+            self.main_window.switch_to_profile_screen)
+        self.main_window.questionnaire_edit_screen.throw_dice_btn.clicked.connect(
+            self.main_window.throw_dice)
+        self.main_window.questionnaire_edit_screen.account_btn.clicked.connect(
+            self.main_window.switch_to_profile_screen)
 
+    # Переход к списку анкет
     def to_questionnaire_list(self):
         self.main_window.switch_to_questionnaire_screen()
 
+    # Подгрузка всех анкет из профиля
     @token_required
     def load_questionnaire_data(self):
         response = requests.post(
@@ -124,6 +142,7 @@ class QuestionnaireManager(QMainWindow):
         else:
             print("Ошибка загрузки анкет:", response.status_code, response.text)
 
+    # Переход на экран анкеты
     @token_required
     def switch_to_questionnaire_info_screen(self):
         sender = self.sender()
@@ -152,10 +171,12 @@ class QuestionnaireManager(QMainWindow):
         screen.edit_btn.clicked.connect(lambda:
                                         self.switch_to_edit_questionnaire_screen(questionnaire))
 
+    # Переход на главный экран
     def switch_to_main_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.main_window)
 
+    # переход на страницу редактирования анкеты
     def switch_to_edit_questionnaire_screen(self, questionnaire):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.questionnaire_edit_screen)
@@ -184,6 +205,7 @@ class QuestionnaireManager(QMainWindow):
         # Разблокируем сигналы
         screen.save_btn.blockSignals(False)
 
+    # Переход на страницу создания анкеты
     def switch_to_create_questionnaire_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.create_questionnaire_screen)
@@ -192,6 +214,7 @@ class QuestionnaireManager(QMainWindow):
         self.main_window.create_questionnaire_screen.back_btn.clicked.connect(
             self.to_questionnaire_list)
 
+    # Редактирование анкеты
     def edit_questionnaire(self, id):
         screen = self.main_window.questionnaire_edit_screen
         print(id)
@@ -209,6 +232,7 @@ class QuestionnaireManager(QMainWindow):
         else:
             print(response.json().get('message'))
 
+    # функция для создания анкеты
     @token_required
     def create_questionnaire(self):
         screen = self.main_window.create_questionnaire_screen
@@ -225,10 +249,12 @@ class QuestionnaireManager(QMainWindow):
 
         if response.status_code == 200:
             print("Анкета создана")
+            self.main_window.switch_to_questionnaire_screen()
         else:
             # print(response.json().get('message'))
             print('ОШИБКА')
 
+    # Функция для удаления анкеты
     def del_questionnaire(self, id):
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/del_questionnaire', json={'id': id})

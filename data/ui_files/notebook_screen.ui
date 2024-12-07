@@ -27,7 +27,20 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QTextEdit" name="plot_editor"/>
+        <widget class="QTextEdit" name="plot_editor">
+         <property name="styleSheet">
+          <string notr="true">
+   
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+  /* border-image: linear-gradient(to right, red, yellow) 5; */
+
+
+
+</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -42,10 +55,59 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+  color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+  /* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+
+QScrollArea {
+color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+}
+
+QVBoxLayout {
+  background-color: transparent;
+}
+
+QWidget {
+  background-color: transparent;
+}
+</string>
+    </property>
     <property name="text">
      <string>Назад</string>
     </property>
    </widget>
+   <widget class="QWidget" name="widget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-30</y>
+      <width>741</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url('data/textures/background.jpg');
+background-repeat: no-repeat; 
+background-position: center;</string>
+    </property>
+   </widget>
+   <zorder>widget_2</zorder>
+   <zorder>widget</zorder>
+   <zorder>back_btn</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

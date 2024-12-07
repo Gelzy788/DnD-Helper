@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>731</width>
+    <height>491</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>190</y>
+      <y>200</y>
       <width>61</width>
       <height>21</height>
      </rect>
@@ -56,11 +56,17 @@
    <widget class="QLineEdit" name="email_le">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>190</y>
-      <width>113</width>
+      <x>230</x>
+      <y>200</y>
+      <width>151</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 5px; /* Закругление углов (по желанию) */
+</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="password_le">
@@ -68,9 +74,15 @@
      <rect>
       <x>230</x>
       <y>230</y>
-      <width>113</width>
+      <width>151</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 5px; /* Закругление углов (по желанию) */
+</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="username_le">
@@ -78,9 +90,15 @@
      <rect>
       <x>230</x>
       <y>260</y>
-      <width>113</width>
+      <width>151</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 5px; /* Закругление углов (по желанию) */
+</string>
     </property>
    </widget>
    <widget class="QPushButton" name="to_main_btn">
@@ -91,6 +109,25 @@
       <width>131</width>
       <height>51</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
     </property>
     <property name="text">
      <string>Назад</string>
@@ -104,6 +141,25 @@
       <width>131</width>
       <height>51</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
     </property>
     <property name="text">
      <string>Зарегистрироваться</string>
@@ -122,13 +178,38 @@
      <string/>
     </property>
    </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-30</y>
+      <width>741</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url('data/textures/background.jpg');
+background-repeat: no-repeat; 
+background-position: center;</string>
+    </property>
+   </widget>
+   <zorder>widget</zorder>
+   <zorder>label</zorder>
+   <zorder>label_2</zorder>
+   <zorder>label_3</zorder>
+   <zorder>email_le</zorder>
+   <zorder>password_le</zorder>
+   <zorder>username_le</zorder>
+   <zorder>to_main_btn</zorder>
+   <zorder>reg_btn</zorder>
+   <zorder>reg_res</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>731</width>
      <height>22</height>
     </rect>
    </property>

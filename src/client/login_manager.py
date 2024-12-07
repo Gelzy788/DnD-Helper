@@ -17,6 +17,7 @@ class LoginManager(QMainWindow):
         self.login_btn.clicked.connect(self.login)
         self.to_main_btn.clicked.connect(self.go_back)
 
+    # Вход в профиль
     def login(self):
         email = self.email_le.text()
         password = self.password_le.text()
@@ -45,6 +46,7 @@ class LoginManager(QMainWindow):
         #     print(access_token, '>>', refresh_token)
         #     print(f.readlines())
 
+    # Переход на главный экран
     def go_back(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.main_window)

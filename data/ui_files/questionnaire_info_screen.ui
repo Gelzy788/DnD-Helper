@@ -23,6 +23,25 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
+    </property>
     <property name="text">
      <string>Аккаунт</string>
     </property>
@@ -36,6 +55,25 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
+    </property>
     <property name="text">
      <string>Кинуть дайс</string>
     </property>
@@ -48,6 +86,25 @@
       <width>101</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
     </property>
     <property name="text">
      <string>Назад</string>
@@ -178,7 +235,23 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 0, 0);</string>
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
     </property>
     <property name="text">
      <string>Удалить</string>
@@ -193,10 +266,52 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
+    </property>
     <property name="text">
      <string>Редактировать</string>
     </property>
    </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-30</y>
+      <width>741</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url('data/textures/background.jpg');
+background-repeat: no-repeat; 
+background-position: center;</string>
+    </property>
+   </widget>
+   <zorder>widget</zorder>
+   <zorder>account_btn</zorder>
+   <zorder>throw_dice_btn</zorder>
+   <zorder>back_btn</zorder>
+   <zorder>gridLayoutWidget</zorder>
+   <zorder>name_label</zorder>
+   <zorder>del_btn</zorder>
+   <zorder>edit_btn</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

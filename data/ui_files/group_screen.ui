@@ -23,6 +23,25 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
+    </property>
     <property name="text">
      <string>Аккаунт</string>
     </property>
@@ -31,10 +50,29 @@
     <property name="geometry">
      <rect>
       <x>610</x>
-      <y>410</y>
+      <y>160</y>
       <width>101</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
     </property>
     <property name="text">
      <string>Кинуть дайс</string>
@@ -44,10 +82,29 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>410</y>
+      <y>400</y>
       <width>101</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
     </property>
     <property name="text">
      <string>Назад</string>
@@ -57,10 +114,16 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>30</y>
+      <y>20</y>
       <width>41</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+	color: rgb(240, 155, 89);
+
+</string>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;ДМ:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -70,7 +133,7 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>30</y>
+      <y>20</y>
       <width>71</width>
       <height>31</height>
      </rect>
@@ -82,11 +145,37 @@
    <widget class="QScrollArea" name="scroll_area">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>70</y>
+      <x>20</x>
+      <y>60</y>
       <width>241</width>
       <height>331</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+  /* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QScrollArea {
+/* color: rgb(240, 155, 89); */
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+}
+
+QVBoxLayout {
+  background-color: transparent;
+}
+
+QWidget {
+  background-color: transparent;
+}
+</string>
     </property>
     <property name="widgetResizable">
      <bool>true</bool>
@@ -96,8 +185,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>239</width>
-       <height>329</height>
+       <width>227</width>
+       <height>317</height>
       </rect>
      </property>
     </widget>
@@ -106,10 +195,16 @@
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>70</y>
+      <y>250</y>
       <width>261</width>
       <height>191</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(240, 155, 89);
+alternate-background-color: grey;
+selection-background-color: #ffcc00;
+</string>
     </property>
     <property name="selectionMode">
      <enum>QCalendarWidget::NoSelection</enum>
@@ -119,10 +214,29 @@
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>270</y>
+      <y>110</y>
       <width>261</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
     </property>
     <property name="text">
      <string>Выбрать дату следующей игры</string>
@@ -131,11 +245,17 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>450</x>
-      <y>380</y>
+      <x>490</x>
+      <y>220</y>
       <width>101</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+	color: rgb(240, 155, 89);
+
+</string>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;ID группы:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -144,8 +264,8 @@
    <widget class="QLabel" name="group_id_lb">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>380</y>
+      <x>600</x>
+      <y>220</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -158,10 +278,29 @@
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>320</y>
+      <y>60</y>
       <width>261</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
     </property>
     <property name="text">
      <string>Сюжет игры</string>
@@ -171,10 +310,29 @@
     <property name="geometry">
      <rect>
       <x>320</x>
-      <y>410</y>
+      <y>400</y>
       <width>121</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
     </property>
     <property name="text">
      <string>Привязать анкету</string>
@@ -183,16 +341,64 @@
    <widget class="QPushButton" name="kick_member_btn">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>410</y>
-      <width>131</width>
+      <x>450</x>
+      <y>160</y>
+      <width>151</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/* border-color: rgb(142, 74, 25);
+border: 2px solid rgb(142, 74, 25); */
+/* background-color: rgb(142, 74, 25); */
+
+QPushButton {
+	color: rgb(240, 155, 89);
+    background-color: transparent; /* Делаем фон прозрачным */
+    border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
+    border-radius: 15px; /* Закругление углов (по желанию) */
+    padding: 5px; /* Отступы (по желанию) */
+	/* border-image: linear-gradient(to right, red, yellow) 5; */
+}
+
+QPushButton:hover {
+    background-color: rgba(54, 21, 8, 0.5); 
+} 
+</string>
     </property>
     <property name="text">
      <string>Кикнуть пользователя</string>
     </property>
    </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-30</y>
+      <width>741</width>
+      <height>531</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url('data/textures/background.jpg');
+background-repeat: no-repeat; 
+background-position: center;</string>
+    </property>
+   </widget>
+   <zorder>widget</zorder>
+   <zorder>account_btn</zorder>
+   <zorder>throw_dice_btn</zorder>
+   <zorder>back_btn</zorder>
+   <zorder>label</zorder>
+   <zorder>dm_name</zorder>
+   <zorder>scroll_area</zorder>
+   <zorder>games_calendar</zorder>
+   <zorder>set_game_date_btn</zorder>
+   <zorder>label_2</zorder>
+   <zorder>group_id_lb</zorder>
+   <zorder>plot_btn</zorder>
+   <zorder>connect_questionnaire_btn</zorder>
+   <zorder>kick_member_btn</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

@@ -4,6 +4,8 @@ from PyQt6.QtCore import QDate
 import requests
 from my_config import *
 
+# Окно ввода даты игры
+
 
 class DateInputDialog(QDialog):
     def __init__(self, parent=None):
@@ -33,6 +35,7 @@ class GroupManager(QMainWindow):
         self.refresh_token = refresh_token
         self.init_ui()
 
+    # декоратор для проверки актуальности access токена перед его использованием
     @staticmethod
     def token_required(func):
         def wrapper(self, *args, **kwargs):
@@ -65,6 +68,7 @@ class GroupManager(QMainWindow):
                 msg.exec()
         return wrapper
 
+    # Функция обновления access токена
     def refresh_access_token(self):
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/refresh-token', json={'refresh_token': self.refresh_token})
@@ -87,6 +91,7 @@ class GroupManager(QMainWindow):
                 print("Ошибка декодирования JSON: пустой или некорректный ответ")
             print("Некорректный ответ от сервера или ошибка соединения")
 
+    # Функция проверки того, насколько скоро access токен прекратит работу
     def is_access_token_expiring_soon(self):
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/access-token-expiration',
@@ -109,6 +114,7 @@ class GroupManager(QMainWindow):
         self.group_screen = self.main_window.group_screen
         self.notebook_screen = self.main_window.notebook_screen
 
+        # Привязка функционала кнопкам
         self.create_group_btn.clicked.connect(self.create_group)
         self.back_btn.clicked.connect(self.switch_to_main_screen)
         self.join_group_btn.clicked.connect(self.join_group)
@@ -123,8 +129,15 @@ class GroupManager(QMainWindow):
         self.group_screen.connect_questionnaire_btn.clicked.connect(
             self.connect_questionnaire)
         self.group_screen.kick_member_btn.clicked.connect(self.kick_member)
-        # self.main_window.notebook_screen.plot_btn.clicked.connect(
-        #     self.switch_to_notebook)
+        self.throw_dice_btn.clicked.connect(self.main_window.throw_dice)
+        self.account_btn.clicked.connect(
+            self.main_window.switch_to_profile_screen)
+        self.main_window.group_screen.throw_dice_btn.clicked.connect(
+            self.main_window.throw_dice)
+        self.main_window.group_screen.account_btn.clicked.connect(
+            self.main_window.switch_to_profile_screen)
+
+    # Функция подгрузки всех групп из профиля
 
     @token_required
     def load_groups(self):
@@ -176,6 +189,7 @@ class GroupManager(QMainWindow):
             print("Ошибка загрузки друзей:",
                   response.status_code, response.text)
 
+    # Функция присоединения профиля к группе
     @token_required
     def join_group(self):
         group_id, ok = QInputDialog.getInt(
@@ -199,6 +213,7 @@ class GroupManager(QMainWindow):
                 msg.setStandardButtons(QMessageBox.StandardButton.Ok)
                 msg.exec()
 
+    # Функция создания группы
     @token_required
     def create_group(self):
         name, ok = QInputDialog.getText(
@@ -234,6 +249,7 @@ class GroupManager(QMainWindow):
             msg.setStandardButtons(QMessageBox.StandardButton.Ok)
             msg.exec()
 
+    # Переход на страницу группы
     @token_required
     def switch_to_group_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
@@ -242,11 +258,13 @@ class GroupManager(QMainWindow):
         # self.main_window.groups_screen.back_btn.clicked.connect(
         #     self.switch_to_group_list_screen)
 
+    # Переход на страницу со списком групп
     def switch_to_group_list_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.group_manager)
         self.load_groups()
 
+    # Функция для подгрузки групп из профиля
     @token_required
     def load_group_interface(self):
         if self.sender().property('group_id'):
@@ -306,6 +324,7 @@ class GroupManager(QMainWindow):
         else:
             print("ОШИБКА")
 
+    # Функция для перехода на страницу записной книги
     @token_required
     def switch_to_notebook(self):
         self.main_window.stacked_widget.setCurrentWidget(self.notebook_screen)
@@ -329,6 +348,7 @@ class GroupManager(QMainWindow):
         if response.status_code == 200:
             print('plot was edited')
 
+    # переход на страницу группы с сохранением записной книги
     @token_required
     def switch_to_group_screen_with_save(self):
         self.save_plot()
@@ -338,6 +358,7 @@ class GroupManager(QMainWindow):
         self.main_window.group_screen.back_btn.clicked.connect(
             self.switch_to_group_list_screen)
 
+    # Постановка даты игры
     def set_game_date(self):
         dialog = DateInputDialog(self)
         if dialog.exec():
@@ -346,6 +367,7 @@ class GroupManager(QMainWindow):
                 f'http://{IP_ADDRESS}:{PORT}/set_game_date', json={'group_id': self.group_id, 'date': selected_date})
             self.load_group_interface()
 
+    # Привязка анкеты к группе
     def connect_questionnaire(self):
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/get_questionnaires', json={'access_token': self.access_token})
@@ -373,6 +395,7 @@ class GroupManager(QMainWindow):
             msg.setStandardButtons(QMessageBox.StandardButton.Ok)
             msg.exec()
 
+    # Функция для того, чтобы выгнать игрока
     def kick_member(self):
         members = []
         names_lo = self.group_screen.scroll_area.widget().layout()
@@ -399,6 +422,7 @@ class GroupManager(QMainWindow):
             msg.setStandardButtons(QMessageBox.StandardButton.Ok)
             msg.exec()
 
+    # Переход на главную страницу
     def switch_to_main_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.main_window)

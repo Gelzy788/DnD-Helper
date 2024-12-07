@@ -9,6 +9,7 @@ from functools import wraps
 import datetime
 import uuid
 import pytz
+import datetime
 
 
 login_manager.init_app(app)
@@ -40,10 +41,14 @@ def token_required(f):
 
     return decorated
 
+# Загрузка пользователя
+
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+# Вход в аккаунт
 
 
 @app.route('/login', methods=['POST'])
@@ -76,6 +81,8 @@ def login():
         return jsonify({"message": "Login successful", "access_token": f"{access_token}", "refresh_token": f"{refresh_token}"}), 200
     return jsonify({"message": "Invalid credentials"}), 401
 
+# Регистрация аккаунта
+
 
 @app.route('/registration', methods=['POST'])
 def registration():
@@ -94,12 +101,16 @@ def registration():
         return jsonify({"message": "registration failed"}), 500
     return jsonify({"message": "registration successful"}), 200
 
+# Выход из аккаунта
+
 
 @app.route('/logout', methods=['POST'])
 @login_required
 def logout():
     logout_user()
     return jsonify({"message": "Logout successful"}), 200
+
+# Добавление в друзья
 
 
 @app.route('/add-friend', methods=['POST'])
@@ -113,6 +124,8 @@ def add_friend():
         return jsonify({"message": "Friend added"}), 200
     else:
         return jsonify({"message": "Friend already added"}), 501
+
+# Создание новой анкеты
 
 
 @app.route('/create_new_questionnaire', methods=['POST'])
@@ -134,6 +147,8 @@ def create_new_questionnaire():
         return jsonify({"message": 'questionnaire was created'}), 200
     else:
         return jsonify({'message': "questionnaire wasn't created - error on the side of the add function"}), 401
+
+# Информация о профиле
 
 
 @app.route('/profile', methods=['GET'])
@@ -178,6 +193,8 @@ def refresh_token():
     except Exception as e:
         return jsonify({'message': 'Invalid refresh token!'}), 401
 
+# Получение информации об актуальности access токена
+
 
 @app.route('/access-token-expiration', methods=['POST'])
 def access_token_expiration():
@@ -208,6 +225,8 @@ def access_token_expiration():
     except Exception as e:
         print(str(e))
         return jsonify({'message': 'Invalid access token!'}), 401
+
+# Получение информации об актуальности refresh токена
 
 
 @app.route('/refresh-token-expiration', methods=['POST'])
@@ -240,6 +259,8 @@ def refresh_token_expiration():
         print(str(e))
         return jsonify({'message': 'Invalid refresh token!'}), 401
 
+# Получение списка анкет
+
 
 @app.route('/get_questionnaires', methods=['POST'])
 def get_questionnaires():
@@ -248,6 +269,8 @@ def get_questionnaires():
                          algorithms=['HS256'])['user']['id']
     questionnaires = Questionnaire.query.filter_by(user_id=user_id).all()
     return jsonify({'questionnaires': [q.to_dict() for q in questionnaires]}), 200
+
+# Удаление анкеты
 
 
 @app.route('/del_questionnaire', methods=['POST'])
@@ -262,6 +285,8 @@ def del_questionnaire():
         print(str(e))
         return jsonify({'message': f'Error: {str(e)}'})
 
+# Редактирование анкеты
+
 
 @app.route('/edit_questionnaire', methods=['POST'])
 def edit_questionnaire():
@@ -271,6 +296,8 @@ def edit_questionnaire():
         return jsonify({'message': 'questionnaire was edited'}), 200
     else:
         return jsonify({'message': f'Error: {res}'}), 400
+
+# Получение списка друзей
 
 
 @app.route('/get_friends', methods=['POST'])
@@ -282,6 +309,8 @@ def get_friends():
     friend_list.extend(Friends.query.filter_by(friend_id=user_id).all())
     return jsonify({'friends': [q.to_dict() for q in friend_list]}), 200
 
+# Обновление статуса дружбы
+
 
 @app.route('/update_friendship_status', methods=['POST'])
 def update_friendship_status():
@@ -292,6 +321,8 @@ def update_friendship_status():
         return jsonify({'message': 'status was update'}), 200
     else:
         return jsonify({'message': f'Error: {res}'})
+
+# Удаление приглашения в друзья
 
 
 @app.route('/delete_friend_request', methods=['POST'])
@@ -305,6 +336,8 @@ def delete_friend_request():
     else:
         return jsonify({'message': f'Error: {res}'})
 
+# Получение списка групп
+
 
 @app.route('/get_groups', methods=['POST'])
 def get_groups():
@@ -314,6 +347,8 @@ def get_groups():
     owner_groups = Groups.query.filter_by(owner_id=user_id).all()
     participant_groups = GroupsMembers.query.filter_by(user_id=user_id).all()
     return jsonify({'user owner groups': [i.to_dict() for i in owner_groups], 'user participant groups': [i.to_dict() for i in participant_groups]}), 200
+
+# Создание группы
 
 
 @app.route('/create_group', methods=['POST'])
@@ -328,6 +363,8 @@ def create_group():
     else:
         return jsonify({'message': f'Error: {res}'}), 401
 
+# Добавление пользователя в группу
+
 
 @app.route('/add_user_to_group', methods=['POST'])
 def add_user_to_group():
@@ -338,8 +375,12 @@ def add_user_to_group():
     res = add_user_to_group_db(user_id, group_id)
     if res is True:
         return jsonify({'message': 'user was added to group'}), 200
+    elif res is False:
+        return jsonify({'message': 'The user has already been added to the group'}), 401
     else:
         return jsonify({'message': f'Error: {res}'}), 401
+
+# Получение ника админа
 
 
 @app.route('/get_owner_username', methods=['POST'])
@@ -350,12 +391,131 @@ def get_owner_username():
     if user:
         return jsonify({'username': user.username}), 200
 
+# Получение информации о группе
 
-@app.route('/get_group_members', methods=['POST'])
-def get_group_members():
+
+@app.route('/get_group_info', methods=['POST'])
+def get_group_info():
     group_id = request.json.get('group_id')
+    group = Groups.query.filter_by(id=group_id).first()
+    next_game_date = group.game_date.isoformat(
+    ) if group.game_date else None  # Преобразуем дату в строку
     members = GroupsMembers.query.filter_by(group_id=group_id).all()
-    return jsonify({'members': [i.to_dict() for i in members]}), 200
+    return jsonify({'members': [i.to_dict() for i in members], 'game_date': next_game_date}), 200
+
+# @app.route('/get_group_info', methods=['POST'])
+# def get_group_members():
+#     group_id = request.json.get('group_id')
+#     group = Groups.query.filter_by(id=group_id).first()
+#     members = GroupsMembers.query.filter_by(group_id=group_id).all()
+#     return jsonify({'members': [i.to_dict() for i in members]}), 200
+
+# Получение сюжета игры
+
+
+@app.route('/get_plot', methods=['POST'])
+def get_plot():
+    group_id = request.json.get('group_id')
+    group = Groups.query.filter_by(id=group_id).first()
+    return jsonify({'plot': group.plot}), 200
+
+# Сохранение отредактированного сюжета
+
+
+@app.route('/edit_plot', methods=['POST'])
+def edit_plot():
+    group_id = request.json.get('group_id')
+    plot = request.json.get('plot')
+    res = edit_plot_db(group_id, plot)
+    if res is True:
+        return jsonify({'message': 'plot has been edited'}), 200
+    else:
+        return jsonify({'message': f'Error: {res}'}), 401
+
+# Постановка даты ближайшей игры
+
+
+@app.route('/set_game_date', methods=['POST'])
+def set_game_date():
+    group_id = request.json.get('group_id')
+    date = request.json.get('date')
+    res = set_game_date_db(group_id, date)
+
+    if res is True:
+        return jsonify({'message': 'date has been updated'}), 200
+    else:
+        return jsonify({'message': f'Error: {res}'}), 401
+
+# Привязка анкеты к группе
+
+
+@app.route('/connect_questionnaire', methods=['POST'])
+def connect_member_questionnaire():
+    group_id = request.json.get('group_id')
+    user_id = jwt.decode(request.json.get(
+        'access_token'), ACCESS_TOKEN_SECRET_KEY, algorithms=['HS256'])['user']['id']
+    questionnaire_id = request.json.get('questionnaire_id')
+    res = connect_questionnaire_db(user_id, group_id, questionnaire_id)
+
+    if res is True:
+        return jsonify({'message': 'questionnaire has been updated'}), 200
+    else:
+        return jsonify({'message': f'Error: {res}'}), 401
+
+# Удаление игрока из группы
+
+
+@app.route('/kick_member', methods=['POST'])
+def kick_member():
+    group_id = request.json.get('group_id')
+    member_id = request.json.get('member_id')
+    res = kick_member_db(group_id, member_id)
+
+    if res is True:
+        return jsonify({'message': 'user has been kicked'}), 200
+    else:
+        return jsonify({'message': f'Error: {res}'}), 401
+
+# Удаление группы *НЕ ДОДЕЛАНО*
+
+
+@app.route('/delete_group', methods=['POST'])
+def delete_member():
+    group_id = request.json.get('group_id')
+    res = delete_group_db(group_id)
+
+    if res is True:
+        return jsonify({'message': 'group has been deleted'}), 200
+    else:
+        return jsonify({'message': f'Error: {res}'}), 401
+
+# Сохранение аватара анкеты
+
+
+@app.route('/upload-questionnaire-image/<int:questionnaire_id>', methods=['POST'])
+def upload_questionnaire_image(questionnaire_id):
+    if 'image' not in request.files:
+        return jsonify({'message': 'No image part'}), 400
+    file = request.files['image']
+    if file.filename == '':
+        return jsonify({'message': 'No selected file'}), 400
+
+    image_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    file.save(image_path)
+
+    if save_questionnaire_image(questionnaire_id, image_path):
+        return jsonify({'message': 'Image uploaded successfully'}), 200
+    return jsonify({'message': 'Failed to save image'}), 500
+
+# Получение аватара анкеты
+
+
+@app.route('/get-questionnaire-image/<int:questionnaire_id>', methods=['GET'])
+def get_questionnaire_image_route(questionnaire_id):
+    image_path = get_questionnaire_image(questionnaire_id)
+    if image_path:
+        return jsonify({'image_path': image_path}), 200
+    return jsonify({'message': 'Image not found'}), 404
 
 
 if __name__ == '__main__':
