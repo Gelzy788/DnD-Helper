@@ -159,7 +159,7 @@ class GroupManager(QMainWindow):
             # Вывод групп, которыми пользователь владеет
             for i in self.owner_groups:
                 button = QPushButton(self)
-                button.setText(f'👑 {i['name']}')
+                button.setText(f'👑 {i["name"]}')
                 self.buttons.append(button)
                 button.setProperty('group_id', i['id'])
                 button.setProperty('dm', True)
@@ -171,7 +171,7 @@ class GroupManager(QMainWindow):
             # Вывод остальных групп
             for i in self.participant_groups:
                 button = QPushButton(self)
-                button.setText(f'{i['name']}')
+                button.setText(f'{i["name"]}')
                 self.buttons.append(button)
                 button.setProperty('group_id', i['group_id'])
                 # print(f'{i['name']} - {i['group_id']}')
@@ -208,7 +208,7 @@ class GroupManager(QMainWindow):
             else:
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Icon.Critical)
-                msg.setText(f'{response.json().get('message')}')
+                msg.setText(f'{response.json().get("message")}')
                 msg.setWindowTitle("Ошибка подключения к группе")
                 msg.setStandardButtons(QMessageBox.StandardButton.Ok)
                 msg.exec()
@@ -236,7 +236,7 @@ class GroupManager(QMainWindow):
             else:
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Icon.Critical)
-                msg.setText(f'{response.json().get('message')}')
+                msg.setText(f"{response.json().get('message')}")
                 msg.setWindowTitle("Ошибка создания группы")
                 msg.setStandardButtons(QMessageBox.StandardButton.Ok)
                 msg.exec()

@@ -12,7 +12,7 @@ D&D Helper - программа, которая облегчит вам игру
 5. Активироваь виртуальное окружение:
     - Windows: venv\Scripts\activate
     - Linux/mac os: source venv/bin/activate
-6. Установить зависимости: Windows: pip install -r requirements.txt
+6. Установить зависимости: pip install -r requirements.txt
 7. Запустить файл main.py
     
 

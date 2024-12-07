@@ -50,7 +50,7 @@ class ProfileManager(QMainWindow):
         return self.main_window.profile_manager.access_token
 
     def init_ui(self):
-        loadUi('data\\ui_files\\profile_screen.ui', self)
+        loadUi('data/ui_files/profile_screen.ui', self)
 
         self.main_screen_btn.clicked.connect(self.switch_to_main_screen)
         self.logout_btn.clicked.connect(self.logout)
@@ -59,7 +59,7 @@ class ProfileManager(QMainWindow):
     @token_required
     def load_profile_data(self):
         response = requests.get(
-            f'http://{IP_ADDRESS}:{PORT}/profile', headers={'Authorization': f'Bearer {self.access_token}'})
+            f"http://{IP_ADDRESS}:{PORT}/profile", headers={'Authorization': f"Bearer {self.access_token}"})
 
         if response.status_code == 200:
             data = response.json()
@@ -72,7 +72,7 @@ class ProfileManager(QMainWindow):
     # Функция обновления access токена
     def refresh_access_token(self):
         response = requests.post(
-            f'http://{IP_ADDRESS}:{PORT}/refresh-token', json={'refresh_token': self.refresh_token})
+            f"http://{IP_ADDRESS}:{PORT}/refresh-token", json={'refresh_token': self.refresh_token})
 
         if response.status_code == 200:
             try:
@@ -95,7 +95,7 @@ class ProfileManager(QMainWindow):
     # Функция проверки того, насколько скоро access токен прекратит работу
     def is_access_token_expiring_soon(self):
         response = requests.post(
-            f'http://{IP_ADDRESS}:{PORT}/access-token-expiration',
+            f"http://{IP_ADDRESS}:{PORT}/access-token-expiration",
             json={'access_token': self.access_token})
 
         if response.status_code == 200 and response.content:

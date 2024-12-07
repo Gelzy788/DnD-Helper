@@ -27,7 +27,7 @@ class RegisterManager(QMainWindow):
 
         if email != '' and password != '' and username != '':
             response = requests.post(
-                f'http://{IP_ADDRESS}:{PORT}/registration', json={'email': email, 'password': password, 'username': username})
+                f"http://{IP_ADDRESS}:{PORT}/registration", json={'email': email, 'password': password, 'username': username})
 
             if response.status_code == 200:
                 self.reg_res.setText(

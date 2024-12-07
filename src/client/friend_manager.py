@@ -98,10 +98,7 @@ class FriendManager(QMainWindow):
         self.throw_dice_btn.clicked.connect(self.main_window.throw_dice)
         self.account_btn.clicked.connect(
             self.main_window.switch_to_profile_screen)
-        self.main_window.friend_requests_screen.throw_dice_btn.clicked.connect(
-            self.main_window.throw_dice)
-        self.main_window.friend_requests_screen.account_btn.clicked.connect(
-            self.main_window.switch_to_profile_screen)
+        self.main_window
 
         self.setLayout(QVBoxLayout())
 

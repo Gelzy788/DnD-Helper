@@ -48,7 +48,7 @@ class QuestionnaireManager(QMainWindow):
     # Функция обновления access токена
     def refresh_access_token(self):
         response = requests.post(
-            f'http://{IP_ADDRESS}:{PORT}/refresh-token', json={'refresh_token': self.refresh_token})
+            f"http://{IP_ADDRESS}:{PORT}/refresh-token', json={'refresh_token': self.refresh_token}")
 
         if response.status_code == 200:
             try:
@@ -71,8 +71,8 @@ class QuestionnaireManager(QMainWindow):
     # Функция проверки того, насколько скоро access токен прекратит работу
     def is_access_token_expiring_soon(self):
         response = requests.post(
-            f'http://{IP_ADDRESS}:{PORT}/access-token-expiration',
-            json={'access_token': self.access_token})
+            f"http://{IP_ADDRESS}:{PORT}/access-token-expiration',
+            json={'access_token': self.access_token}")
 
         if response.status_code == 200 and response.content:
             try:
@@ -86,7 +86,7 @@ class QuestionnaireManager(QMainWindow):
             return None
 
     def init_ui(self):
-        loadUi('data\\ui_files\\questionnaire_screen.ui', self)
+        loadUi('data/ui_files/questionnaire_screen.ui', self)
 
         self.create_questionnaire_screen = self.main_window.create_questionnaire_screen
 
@@ -114,7 +114,7 @@ class QuestionnaireManager(QMainWindow):
     @token_required
     def load_questionnaire_data(self):
         response = requests.post(
-            f'http://{IP_ADDRESS}:{PORT}/get_questionnaires', json={'access_token': self.access_token})
+            f"http://{IP_ADDRESS}:{PORT}/get_questionnaires', json={'access_token': self.access_token}")
         if response.status_code == 200:
             self.buttons = []
             self.questionnaires = response.json().get('questionnaires')
@@ -219,7 +219,7 @@ class QuestionnaireManager(QMainWindow):
         screen = self.main_window.questionnaire_edit_screen
         print(id)
         response = requests.post(
-            f'http://{IP_ADDRESS}:{PORT}/edit_questionnaire', json={'id': id,
+            f"http://{IP_ADDRESS}:{PORT}/edit_questionnaire", json={'id': id,
                                                                     'name': screen.name_input.text(),
                                                                     'class_name': screen.class_input.text(),
                                                                     'species': screen.species_input.text(),
@@ -243,7 +243,7 @@ class QuestionnaireManager(QMainWindow):
         experience = screen.exp_input.value()
         level = screen.level_input.value()
         character_name = screen.name_input.text()
-        response = requests.post(f'http://{IP_ADDRESS}:{PORT}/create_new_questionnaire', json={
+        response = requests.post(f"http://{IP_ADDRESS}:{PORT}/create_new_questionnaire", json={
                                  'access_token': self.access_token, 'class_name': class_name, 'species': species, 'background': background,
                                  'worldview': worldview, 'experience': experience, 'level': level, 'character_name': character_name})
 
@@ -257,7 +257,7 @@ class QuestionnaireManager(QMainWindow):
     # Функция для удаления анкеты
     def del_questionnaire(self, id):
         response = requests.post(
-            f'http://{IP_ADDRESS}:{PORT}/del_questionnaire', json={'id': id})
+            f"http://{IP_ADDRESS}:{PORT}/del_questionnaire", json={'id': id})
         if response.status_code == 200:
             print(response.json().get('message'))
             self.to_questionnaire_list()
