@@ -120,57 +120,13 @@ QPushButton:hover {
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Предыстория:</string>
+     <item row="3" column="1">
+      <widget class="QLabel" name="world_view_label">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
        </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Опыт</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Мировоззрение</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Класс:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Раса:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>Уровень</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="class_label">
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="species_label">
        <property name="text">
         <string>TextLabel</string>
        </property>
@@ -178,13 +134,71 @@ QPushButton:hover {
      </item>
      <item row="2" column="1">
       <widget class="QLabel" name="background_label">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
        <property name="text">
         <string>TextLabel</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QLabel" name="world_view_label">
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
+       <property name="text">
+        <string>Уровень</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
+       <property name="text">
+        <string>Предыстория:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLabel" name="level_label">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="species_label">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="class_label">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
        <property name="text">
         <string>TextLabel</string>
        </property>
@@ -192,15 +206,61 @@ QPushButton:hover {
      </item>
      <item row="4" column="1">
       <widget class="QLabel" name="exp_label">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
        <property name="text">
         <string>TextLabel</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QLabel" name="level_label">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>Класс:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
+       <property name="text">
+        <string>Раса:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
+       <property name="text">
+        <string>Опыт</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
+       <property name="text">
+        <string>Мировоззрение</string>
        </property>
       </widget>
      </item>
@@ -220,6 +280,11 @@ QPushButton:hover {
     </property>
     <property name="whatsThis">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Name&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+	color: white;
+}</string>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;TextLabel&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>

@@ -23,6 +23,11 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+	color: white;
+}</string>
+    </property>
     <property name="text">
      <string>Username:</string>
     </property>
@@ -35,6 +40,11 @@
       <width>71</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+	color: white;
+}</string>
     </property>
     <property name="text">
      <string>Email: </string>
@@ -49,6 +59,11 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+	color: white;
+}</string>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -61,6 +76,11 @@
       <width>241</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+	color: white;
+}</string>
     </property>
     <property name="text">
      <string/>
@@ -75,6 +95,11 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+	color: white;
+}</string>
+    </property>
     <property name="text">
      <string>User id: </string>
     </property>
@@ -87,6 +112,11 @@
       <width>241</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+	color: white;
+}</string>
     </property>
     <property name="text">
      <string/>

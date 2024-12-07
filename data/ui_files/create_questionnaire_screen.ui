@@ -58,6 +58,11 @@ QPushButton:hover {
     <layout class="QGridLayout" name="gridLayout">
      <item row="1" column="0">
       <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
        <property name="text">
         <string>Класс</string>
        </property>
@@ -71,6 +76,11 @@ QPushButton:hover {
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="label_5">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
        <property name="text">
         <string>Опыт</string>
        </property>
@@ -78,6 +88,11 @@ QPushButton:hover {
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="label_3">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
        <property name="text">
         <string>Предыстория</string>
        </property>
@@ -88,6 +103,11 @@ QPushButton:hover {
      </item>
      <item row="6" column="0">
       <widget class="QLabel" name="label_6">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
        <property name="text">
         <string>Уровень</string>
        </property>
@@ -95,6 +115,11 @@ QPushButton:hover {
      </item>
      <item row="4" column="0">
       <widget class="QLabel" name="label_4">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
        <property name="text">
         <string>Мировоззрение</string>
        </property>
@@ -102,6 +127,11 @@ QPushButton:hover {
      </item>
      <item row="7" column="0">
       <widget class="QLabel" name="label_7">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
        <property name="text">
         <string>Имя персонажа</string>
        </property>
@@ -129,6 +159,11 @@ QPushButton:hover {
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_2">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+	color: white;
+}</string>
+       </property>
        <property name="text">
         <string>Раса</string>
        </property>

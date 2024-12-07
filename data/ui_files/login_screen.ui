@@ -24,7 +24,8 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">    background-color: transparent; /* Делаем фон прозрачным */
+     <string notr="true">	color: white;
+    background-color: transparent; /* Делаем фон прозрачным */
     border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
     border-radius: 5px; /* Закругление углов (по желанию) */
 </string>
@@ -40,7 +41,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">
+     <string notr="true">	color: white;
     background-color: transparent; /* Делаем фон прозрачным */
     border: 2px solid rgb(240, 155, 89);  /* Цвет границы */
     border-radius: 5px; /* Закругление углов (по желанию) */
