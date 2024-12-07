@@ -23,7 +23,7 @@ class LoginManager(QMainWindow):
         password = self.password_le.text()
 
         response = requests.post(
-            f"http://{IP_ADDRESS}:{PORT}/login", json={'email': email, 'password': password})
+            f'http://{IP_ADDRESS}:{PORT}/login', json={'email': email, 'password': password})
 
         if response.status_code == 200:
             self.login_res.setText('login successful')
