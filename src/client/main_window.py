@@ -21,14 +21,14 @@ class MainWindow(QMainWindow):
         # Инициализация менеджеров
         self.notebook_screen = loadUi('data/ui_files/notebook_screen.ui')
         self.questionnaire_screen = loadUi(
-            'data\\ui_files\\questionnaire_screen.ui')
+            'data/ui_files/questionnaire_screen.ui')
         self.create_questionnaire_screen = loadUi(
-            'data\\ui_files\\create_questionnaire_screen.ui')
+            'data/ui_files/create_questionnaire_screen.ui')
         self.questionnaire_info_screen = loadUi(
-            'data\\ui_files\\questionnaire_info_screen.ui')
+            'data/ui_files/questionnaire_info_screen.ui')
         self.questionnaire_edit_screen = loadUi(
-            'data\\ui_files\\questionnaire_edit_screen.ui')
-        self.main_window = loadUi('data\\ui_files\\main_screen.ui')
+            'data/ui_files/questionnaire_edit_screen.ui')
+        self.main_window = loadUi('data/ui_files/main_screen.ui')
         self.friend_requests_screen = loadUi(
             'data/ui_files/friend_requests_screen.ui')
         self.group_screen = loadUi('data/ui_files/group_screen.ui')

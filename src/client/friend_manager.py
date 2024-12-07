@@ -13,7 +13,7 @@ class FriendManager(QMainWindow):
         self.refresh_token = refresh_token
         self.init_ui()
 
-    # декоратор для проверки актуальности access токена перед его использованием
+        # декоратор для проверки актуальности access токена перед его использованием
     @staticmethod
     def token_required(func):
         def wrapper(self, *args, **kwargs):
@@ -37,7 +37,7 @@ class FriendManager(QMainWindow):
                 return func(self, **kwargs)
             except Exception as e:
                 print(str(e))
-                self.switch_to_main_menu()
+                self.switch_to_main_screen()
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Icon.Critical)
                 msg.setText(f"Нет подключения к интернету")
@@ -88,7 +88,7 @@ class FriendManager(QMainWindow):
             return None
 
     def init_ui(self):
-        loadUi('data\\ui_files\\frends_list_screen.ui', self)
+        loadUi('data/ui_files/frends_list_screen.ui', self)
 
         # Привязка функционала кнопок
         self.add_friend_btn.clicked.connect(self.add_friend)

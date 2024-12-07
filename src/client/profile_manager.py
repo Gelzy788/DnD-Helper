@@ -50,7 +50,7 @@ class ProfileManager(QMainWindow):
         return self.main_window.profile_manager.access_token
 
     def init_ui(self):
-        loadUi('data\\ui_files\\profile_screen.ui', self)
+        loadUi('data/ui_files/profile_screen.ui', self)
 
         self.main_screen_btn.clicked.connect(self.switch_to_main_screen)
         self.logout_btn.clicked.connect(self.logout)

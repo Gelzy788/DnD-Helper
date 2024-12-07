@@ -36,6 +36,7 @@ class QuestionnaireManager(QMainWindow):
                     return
                 return func(self, **kwargs)
             except Exception as e:
+                print(str(e))
                 self.switch_to_main_screen()
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Icon.Critical)
@@ -86,7 +87,7 @@ class QuestionnaireManager(QMainWindow):
             return None
 
     def init_ui(self):
-        loadUi('data\\ui_files\\questionnaire_screen.ui', self)
+        loadUi('data/ui_files/questionnaire_screen.ui', self)
 
         self.create_questionnaire_screen = self.main_window.create_questionnaire_screen
 
