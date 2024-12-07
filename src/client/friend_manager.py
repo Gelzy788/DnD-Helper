@@ -88,7 +88,7 @@ class FriendManager(QMainWindow):
             return None
 
     def init_ui(self):
-        loadUi('data\\ui_files\\frends_list_screen.ui', self)
+        loadUi('data/ui_files/frends_list_screen.ui', self)
 
         # Привязка функционала кнопок
         self.add_friend_btn.clicked.connect(self.add_friend)
