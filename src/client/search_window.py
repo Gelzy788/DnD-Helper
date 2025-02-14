@@ -11,7 +11,7 @@ class SearchPlayersManager(QMainWindow):
         self.refresh_token = refresh_token
         self.init_ui()
 
-    # декоратор для проверки актуальности access токена перед его использованием
+    # декоратор для проверки актуальности access токена перед его использование
     @staticmethod
     def token_required(func):
         def wrapper(self, *args, **kwargs):
