@@ -6,6 +6,7 @@ from group_manager import GroupManager
 from login_manager import LoginManager
 from register_manager import RegisterManager
 from profile_manager import ProfileManager
+from search_window import SearchPlayersManager
 from PyQt6.uic import loadUi
 from my_config import *
 
@@ -32,6 +33,7 @@ class MainWindow(QMainWindow):
         self.friend_requests_screen = loadUi(
             'data/ui_files/friend_requests_screen.ui')
         self.group_screen = loadUi('data/ui_files/group_screen.ui')
+        # self.search_screen = loadUi('')
         self.profile_manager = ProfileManager(
             self, access_token, refresh_token)
         self.login_manager = LoginManager(self)
@@ -39,6 +41,7 @@ class MainWindow(QMainWindow):
         self.friend_manager = FriendManager(self)
         self.questionnaire_manager = QuestionnaireManager(self)
         self.group_manager = GroupManager(self)
+        self.search_manager = SearchPlayersManager(self)
 
         # Добавление экранов в QStackedWidget
         self.stacked_widget.addWidget(self.profile_manager)
@@ -46,6 +49,7 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.register_manager)
         self.stacked_widget.addWidget(self.friend_manager)
         self.stacked_widget.addWidget(self.questionnaire_manager)
+        self.stacked_widget.addWidget(self.search_manager)
         self.stacked_widget.addWidget(self.group_manager)
         self.stacked_widget.addWidget(self.main_window)
         self.stacked_widget.addWidget(self.questionnaire_screen)
@@ -72,6 +76,7 @@ class MainWindow(QMainWindow):
             self.switch_to_friends_list_screen)
         self.main_window.groups_btn.clicked.connect(
             self.switch_to_group_list_screen)
+        self.main_window.search_btn.clicked.connect(self.switch_to_search_screen)
         # self.groups_screen.back_btn.clicked.connect(
         #     self.main_window.switch_to_group_list_screen)
 
@@ -106,6 +111,10 @@ class MainWindow(QMainWindow):
     def switch_to_questionnaire_screen(self):
         self.stacked_widget.setCurrentWidget(self.questionnaire_manager)
         self.questionnaire_manager.load_questionnaire_data()
+    
+    # Переход на страницу поиска игроков
+    def switch_to_search_screen(self):
+        self.stacked_widget.setCurrentWidget(self.search_manager)
 
     # Функция бросания дайсов
     def throw_dice(self):
@@ -120,3 +129,4 @@ class MainWindow(QMainWindow):
             msg.setWindowTitle("Throwing dice")
             msg.setStandardButtons(QMessageBox.StandardButton.Ok)
             msg.exec()
+    

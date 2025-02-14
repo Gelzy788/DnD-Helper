@@ -1,5 +1,6 @@
-from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QLabel, QMessageBox
+from PyQt6.QtWidgets import QMainWindow, QFileDialog, QLabel, QMessageBox
 from PyQt6.uic import loadUi
+from PyQt6.QtGui import QPixmap, QPainter, QRegion
 import requests
 from my_config import *
 # from archive.my_token import token_required
@@ -52,22 +53,36 @@ class ProfileManager(QMainWindow):
     def init_ui(self):
         loadUi('data/ui_files/profile_screen.ui', self)
 
+        # Кнопки
         self.main_screen_btn.clicked.connect(self.switch_to_main_screen)
-        self.logout_btn.clicked.connect(self.logout)
+        self.logout_btn.clicked.connect(self.logout)  
+        self.upload_image_btn.clicked.connect(self.load_image)      
 
     # Функция подгрузки информации
     @token_required
     def load_profile_data(self):
         response = requests.get(
             f'http://{IP_ADDRESS}:{PORT}/profile', headers={'Authorization': f'Bearer {self.access_token}'})
+        picture_response = requests.post(
+            f'http://{IP_ADDRESS}:{PORT}/get_profile_picture',
+            json={'access_token': self.access_token})
 
         if response.status_code == 200:
             data = response.json()
             self.user_id_label.setText(str(data['id']))
             self.username_label.setText(data['username'])
             self.email_label.setText(data['email'])
+
+            with open("profile_image.jpeg", 'wb') as f:
+                f.write(picture_response.content)
+
+            # self.setLayout(self.hbox)
+            profile_picture = QPixmap("profile_image.jpeg")
+            self.image_label.setPixmap(profile_picture)
+            self.image_label.setScaledContents(True)
         else:
             print("Ошибка при загрузке данных профиля:", response.status_code)
+
 
     # Функция обновления access токена
     def refresh_access_token(self):
@@ -121,3 +136,34 @@ class ProfileManager(QMainWindow):
     def switch_to_main_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.main_window)
+    
+    def load_image(self):
+        # Открываем диалоговое окно для выбора файла
+        options = QFileDialog(self).options()
+        file_name, _ = QFileDialog.getOpenFileName(self, "Выберите изображение", "", "Images (*.png *.jpg *.jpeg *.bmp);;All Files (*)", options=options)
+        
+        if file_name:
+            # Загружаем изображение и отображаем его
+            self.image_path = file_name  # Сохраняем путь к изображению
+            pixmap = QPixmap(file_name)
+            self.image_label.setPixmap(pixmap)  # Масштабируем изображение
+            self.send_image()
+    
+    def send_image(self):
+        if self.image_path is None:
+            QMessageBox.warning(self, "Ошибка", "Сначала выберите изображение для загрузки.")
+            return
+
+        url = f'http://{IP_ADDRESS}:{PORT}/upload-profile-image'  # Замените на адрес вашего сервера
+        files = {'file': open(self.image_path, 'rb')}  # Открываем файл в бинарном режиме
+
+        try:
+            response = requests.post(url, data={'access_token': self.access_token}, files=files)
+            if response.status_code == 200:
+                QMessageBox.information(self, "Успех", "Изображение успешно загружено на сервер.")
+            else:
+                QMessageBox.warning(self, "Ошибка", f"Не удалось загрузить изображение. Код ошибки: {response.status_code}")
+        except Exception as e:
+            QMessageBox.critical(self, "Ошибка", f"Произошла ошибка при отправке изображения: {str(e)}")
+        finally:
+            files['file'].close()  # Закрываем файл после отправки
