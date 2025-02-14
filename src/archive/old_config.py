@@ -5,7 +5,7 @@ from flask import Flask
 from PyQt6.uic import loadUi
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'hardsecretkey'
+app.config['SECRET_KEY'] = 'hardsecretky'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Azizalinegm111@localhost/dnd_helper'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
