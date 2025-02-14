@@ -44,7 +44,7 @@ class SearchPlayersManager(QMainWindow):
                 msg.exec()
         return wrapper
 
-    # Функция обновления access токена
+    # Функция обновления access токено
     def refresh_access_token(self):
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/refresh-token', json={'refresh_token': self.refresh_token})
