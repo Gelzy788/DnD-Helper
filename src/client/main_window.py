@@ -33,7 +33,8 @@ class MainWindow(QMainWindow):
         self.friend_requests_screen = loadUi(
             'data/ui_files/friend_requests_screen.ui')
         self.group_screen = loadUi('data/ui_files/group_screen.ui')
-        self.edit_profile_screen = loadUi('data/ui_files/profile_edit_screen.ui')
+        self.edit_profile_screen = loadUi(
+            'data/ui_files/profile_edit_screen.ui')
         self.profile_manager = ProfileManager(
             self, access_token, refresh_token)
         self.login_manager = LoginManager(self)
@@ -77,7 +78,7 @@ class MainWindow(QMainWindow):
             self.switch_to_friends_list_screen)
         self.main_window.groups_btn.clicked.connect(
             self.switch_to_group_list_screen)
-        self.main_window.search_btn.clicked.connect(self.switch_to_search_screen)
+        # self.main_window.search_btn.clicked.connect(self.switch_to_search_screen)
         # self.groups_screen.back_btn.clicked.connect(
         #     self.main_window.switch_to_group_list_screen)
 
@@ -112,7 +113,7 @@ class MainWindow(QMainWindow):
     def switch_to_questionnaire_screen(self):
         self.stacked_widget.setCurrentWidget(self.questionnaire_manager)
         self.questionnaire_manager.load_questionnaire_data()
-    
+
     # Переход на страницу поиска игроков
     def switch_to_search_screen(self):
         self.stacked_widget.setCurrentWidget(self.search_manager)
@@ -130,4 +131,3 @@ class MainWindow(QMainWindow):
             msg.setWindowTitle("Throwing dice")
             msg.setStandardButtons(QMessageBox.StandardButton.Ok)
             msg.exec()
-    
