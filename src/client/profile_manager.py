@@ -1,8 +1,9 @@
-from PyQt6.QtWidgets import QMainWindow, QFileDialog, QLabel, QMessageBox
+from PyQt6.QtWidgets import QMainWindow, QFileDialog, QInputDialog, QMessageBox
 from PyQt6.uic import loadUi
 from PyQt6.QtGui import QPixmap, QPainter, QRegion
 import requests
 from my_config import *
+from random import randint
 # from archive.my_token import token_required
 
 
@@ -57,10 +58,11 @@ class ProfileManager(QMainWindow):
 
         # Кнопки
         self.main_screen_btn.clicked.connect(self.switch_to_main_screen)
-        self.logout_btn.clicked.connect(self.logout)  
-        self.upload_image_btn.clicked.connect(self.load_image) 
+        self.logout_btn.clicked.connect(self.logout)
+        self.upload_image_btn.clicked.connect(self.load_image)
         self.edit_profile_btn.clicked.connect(self.switch_to_edit_profile)
         self.edit_screen.back_btn.clicked.connect(self.switch_back_with_save)
+        self.edit_screen.throw_dice_btn.clicked.connect(self.throw_dice)
 
     # Функция подгрузки информации
     @token_required
@@ -89,8 +91,8 @@ class ProfileManager(QMainWindow):
         else:
             print("Ошибка при загрузке данных профиля:", response.status_code)
 
-
     # Функция обновления access токена
+
     def refresh_access_token(self):
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/refresh-token', json={'refresh_token': self.refresh_token})
@@ -142,44 +144,52 @@ class ProfileManager(QMainWindow):
     def switch_to_main_screen(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.main_window)
-    
+
     def load_image(self):
         # Открываем диалоговое окно для выбора файла
         options = QFileDialog(self).options()
-        file_name, _ = QFileDialog.getOpenFileName(self, "Выберите изображение", "", "Images (*.png *.jpg *.jpeg *.bmp);;All Files (*)", options=options)
-        
+        file_name, _ = QFileDialog.getOpenFileName(
+            self, "Выберите изображение", "", "Images (*.png *.jpg *.jpeg *.bmp);;All Files (*)", options=options)
+
         if file_name:
             # Загружаем изображение и отображаем его
             self.image_path = file_name  # Сохраняем путь к изображению
             pixmap = QPixmap(file_name)
             self.image_label.setPixmap(pixmap)  # Масштабируем изображение
             self.send_image()
-    
+
     def send_image(self):
         if self.image_path is None:
-            QMessageBox.warning(self, "Ошибка", "Сначала выберите изображение для загрузки.")
+            QMessageBox.warning(
+                self, "Ошибка", "Сначала выберите изображение для загрузки.")
             return
 
-        url = f'http://{IP_ADDRESS}:{PORT}/upload-profile-image'  # Замените на адрес вашего сервера
-        files = {'file': open(self.image_path, 'rb')}  # Открываем файл в бинарном режиме
+        # Замените на адрес вашего сервера
+        url = f'http://{IP_ADDRESS}:{PORT}/upload-profile-image'
+        # Открываем файл в бинарном режиме
+        files = {'file': open(self.image_path, 'rb')}
 
         try:
-            response = requests.post(url, data={'access_token': self.access_token}, files=files)
+            response = requests.post(
+                url, data={'access_token': self.access_token}, files=files)
             if response.status_code == 200:
-                QMessageBox.information(self, "Успех", "Изображение успешно загружено на сервер.")
+                QMessageBox.information(
+                    self, "Успех", "Изображение успешно загружено на сервер.")
             else:
-                QMessageBox.warning(self, "Ошибка", f"Не удалось загрузить изображение. Код ошибки: {response.status_code}")
+                QMessageBox.warning(
+                    self, "Ошибка", f"Не удалось загрузить изображение. Код ошибки: {response.status_code}")
         except Exception as e:
-            QMessageBox.critical(self, "Ошибка", f"Произошла ошибка при отправке изображения: {str(e)}")
+            QMessageBox.critical(
+                self, "Ошибка", f"Произошла ошибка при отправке изображения: {str(e)}")
         finally:
             files['file'].close()  # Закрываем файл после отправки
-    
+
     def switch_to_edit_profile(self):
         self.main_window.stacked_widget.setCurrentWidget(
             self.main_window.edit_profile_screen)
         response = requests.get(
             f'http://{IP_ADDRESS}:{PORT}/profile', headers={'Authorization': f'Bearer {self.access_token}'})
-        
+
         if response.status_code == 200:
             data = response.json()
             self.edit_screen.nickname_input.setText(data["username"])
@@ -187,15 +197,28 @@ class ProfileManager(QMainWindow):
             self.edit_screen.telegram_input.setText(data["telegram"])
             self.edit_screen.vk_input.setText(data["vk"])
             self.edit_screen.description_editor.setText(data["description"])
-    
+
     def switch_back_with_save(self):
         response = requests.post(
             f'http://{IP_ADDRESS}:{PORT}/edit-profile-info',
-            json={'access_token': self.access_token, 'username': self.edit_screen.nickname_input.text(), 
-                  'email': self.edit_screen.mail_input.text(), 'telegram': self.edit_screen.telegram_input.text(), 
+            json={'access_token': self.access_token, 'username': self.edit_screen.nickname_input.text(),
+                  'email': self.edit_screen.mail_input.text(), 'telegram': self.edit_screen.telegram_input.text(),
                   'vk': self.edit_screen.vk_input.text(), 'description': self.edit_screen.description_editor.toPlainText()})
         if response.status_code == 200:
             print("Данный обновлены")
         self.main_window.switch_to_profile_screen()
-        
-        
+
+    # Функция бросания дайсов
+
+    def throw_dice(self):
+        dices = ['D2', 'D4', 'D6', 'D8', 'D10', 'D12', 'D20']
+        dice, ok = QInputDialog.getItem(
+            self, 'Dices', 'Select dice:', dices, 0, False)
+        if ok:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Icon.Question)
+
+            msg.setText(f"{randint(1, int(dice.lstrip('D')))}")
+            msg.setWindowTitle("Throwing dice")
+            msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+            msg.exec()

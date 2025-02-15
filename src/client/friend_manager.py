@@ -143,13 +143,27 @@ class FriendManager(QMainWindow):
             for i in friends:
                 if i['status'] == 1:
                     button = QPushButton(self)
-                    button.setText(i['user_name'])
-                    button.setFixedSize(400, 50)
-                    self.buttons.append(button)
-                    button.setProperty('request_id', i['id'])
-                    button.clicked.connect(
-                        self.delete_friend)
-                    button_layout.addWidget(button)
+                    profile_data_response = requests.get(
+                        f'http://{IP_ADDRESS}:{PORT}/profile', headers={'Authorization': f'Bearer {self.access_token}'})
+
+                    if profile_data_response.status_code == 200:
+                        profile_data = profile_data_response.json()
+                        if profile_data['username'] == i['user_name']:
+                            button.setText(i['friend_name'])
+                            button.setFixedSize(400, 50)
+                            self.buttons.append(button)
+                            button.setProperty('request_id', i['id'])
+                            button.clicked.connect(
+                                self.delete_friend)
+                            button_layout.addWidget(button)
+                        else:
+                            button.setText(i['user_name'])
+                            button.setFixedSize(400, 50)
+                            self.buttons.append(button)
+                            button.setProperty('request_id', i['id'])
+                            button.clicked.connect(
+                                self.delete_friend)
+                            button_layout.addWidget(button)
 
             button_widget.setLayout(button_layout)
             scroll_area.setWidget(button_widget)
