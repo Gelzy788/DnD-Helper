@@ -13,7 +13,9 @@ D&D Helper - программа, которая облегчит вам игру
     - Windows: venv\Scripts\activate
     - Linux/mac os: source venv/bin/activate
 6. Установить зависимости: pip install -r requirements.txt
-7. Запустить файл main.py
+7. Запустить файл main.py:
+   - Linux: python3 src/client/main.py
+   - Windows: python src\client\main.py
     
 
 ## 📁 src
