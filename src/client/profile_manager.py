@@ -53,10 +53,14 @@ class ProfileManager(QMainWindow):
     def init_ui(self):
         loadUi('data/ui_files/profile_screen.ui', self)
 
+        self.edit_screen = self.main_window.edit_profile_screen
+
         # Кнопки
         self.main_screen_btn.clicked.connect(self.switch_to_main_screen)
         self.logout_btn.clicked.connect(self.logout)  
-        self.upload_image_btn.clicked.connect(self.load_image)      
+        self.upload_image_btn.clicked.connect(self.load_image) 
+        self.edit_profile_btn.clicked.connect(self.switch_to_edit_profile)
+        self.edit_screen.back_btn.clicked.connect(self.switch_back_with_save)
 
     # Функция подгрузки информации
     @token_required
@@ -72,6 +76,8 @@ class ProfileManager(QMainWindow):
             self.user_id_label.setText(str(data['id']))
             self.username_label.setText(data['username'])
             self.email_label.setText(data['email'])
+            self.telegram_label.setText(data['telegram'])
+            self.vk_label.setText(data['vk'])
 
             with open("profile_image.jpeg", 'wb') as f:
                 f.write(picture_response.content)
@@ -167,3 +173,29 @@ class ProfileManager(QMainWindow):
             QMessageBox.critical(self, "Ошибка", f"Произошла ошибка при отправке изображения: {str(e)}")
         finally:
             files['file'].close()  # Закрываем файл после отправки
+    
+    def switch_to_edit_profile(self):
+        self.main_window.stacked_widget.setCurrentWidget(
+            self.main_window.edit_profile_screen)
+        response = requests.get(
+            f'http://{IP_ADDRESS}:{PORT}/profile', headers={'Authorization': f'Bearer {self.access_token}'})
+        
+        if response.status_code == 200:
+            data = response.json()
+            self.edit_screen.nickname_input.setText(data["username"])
+            self.edit_screen.mail_input.setText(data["email"])
+            self.edit_screen.telegram_input.setText(data["telegram"])
+            self.edit_screen.vk_input.setText(data["vk"])
+            self.edit_screen.description_editor.setText(data["description"])
+    
+    def switch_back_with_save(self):
+        response = requests.post(
+            f'http://{IP_ADDRESS}:{PORT}/edit-profile-info',
+            json={'access_token': self.access_token, 'username': self.edit_screen.nickname_input.text(), 
+                  'email': self.edit_screen.mail_input.text(), 'telegram': self.edit_screen.telegram_input.text(), 
+                  'vk': self.edit_screen.vk_input.text(), 'description': self.edit_screen.description_editor.toPlainText()})
+        if response.status_code == 200:
+            print("Данный обновлены")
+        self.main_window.switch_to_profile_screen()
+        
+        

@@ -33,7 +33,7 @@ class MainWindow(QMainWindow):
         self.friend_requests_screen = loadUi(
             'data/ui_files/friend_requests_screen.ui')
         self.group_screen = loadUi('data/ui_files/group_screen.ui')
-        # self.search_screen = loadUi('')
+        self.edit_profile_screen = loadUi('data/ui_files/profile_edit_screen.ui')
         self.profile_manager = ProfileManager(
             self, access_token, refresh_token)
         self.login_manager = LoginManager(self)
@@ -48,8 +48,9 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.login_manager)
         self.stacked_widget.addWidget(self.register_manager)
         self.stacked_widget.addWidget(self.friend_manager)
+        self.stacked_widget.addWidget(self.edit_profile_screen)
         self.stacked_widget.addWidget(self.questionnaire_manager)
-        self.stacked_widget.addWidget(self.search_manager)
+        # self.stacked_widget.addWidget(self.search_manager)
         self.stacked_widget.addWidget(self.group_manager)
         self.stacked_widget.addWidget(self.main_window)
         self.stacked_widget.addWidget(self.questionnaire_screen)

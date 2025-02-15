@@ -91,8 +91,7 @@ class SearchPlayersManager(QMainWindow):
         self.to_main_btn.clicked.connect(self.switch_to_main_screen)
         self.throw_dice_btn.clicked.connect(self.main_window.throw_dice)
         self.account_btn.clicked.connect(
-            self.main_window.switch_to_profile_screen)
-    
+            self.main_window.switch_to_profile_screen)    
 
     # Переход на главный экран
     def switch_to_main_screen(self):
